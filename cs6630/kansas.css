@@ -1,0 +1,40 @@
+
+body {
+
+        color:black;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 100;
+        font-size: 40pt;
+        padding: 20px;
+     }
+
+#stuff{
+        height: 100px;
+        width: 40%;
+      }
+
+#stuff:hover {
+        color:#82d7fb;
+            }
+
+
+a {
+        color: white;
+        text-decoration: none;
+     }
+
+#head {
+        font-size: 40px;
+        }
+
+#content {
+        font-size: 25px;
+        padding: 40px;
+
+}
+
+@font-face{
+        font-family: Pigeon;
+        src: url('Pigeon.otf');
+        }
+

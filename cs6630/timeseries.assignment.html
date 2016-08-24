@@ -1,0 +1,113 @@
+<head>
+    <link href='http://sci.utah.edu/~miriah/teaching.css' rel='stylesheet' type='text/css' />
+</head>
+
+<h1 style='font-size: 40pt;'> The Assignment </h1> <br> <br> <br>
+<p> In this assignment, you will be implementing the code described in
+Chapter 4 of Ben Fry's book:
+<a class="nav" href="http://www.amazon.com/gp/product/0596514557?ie=UTF8&tag=processing09-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0596514557"> <i> Visualizing Data</i></a>;
+we have provided you with a
+<a class="nav" href="http://sci.utah.edu/~miriah/cs6630/protected/VisualizingData-4.pdf"> copy of the chapter</a>.
+Please note that some of the scanned figures are distorted; thus, your
+visualization may look slightly different than what you see, which is
+okay! For each of the steps below, include a screenshot of your
+visualization and answer the questions in a digital notebook (similar to
+the DATA EXPLORATION assignment). You will be submitting this digital notebook and
+the final version of your code for the assignment. </p>
+
+<p> Before reading the chapter, download and install
+<a class="nav" href="https://processing.org/download/?processing">Processing</a>,
+and explore the
+<a class="nav" href="http://processing.org/learning/topics/">examples online</a>.
+We highly recommend you go through some of the
+<a class="nav" href="http://processing.org/learning/">tutorials</a>,
+in particular the first four at the <i>Beginner</i> level. </p>
+
+<p> Complete the following steps. Feel free to make changes to the
+design of the visualization as you see fit, and, if you do, be sure to justify
+those changes in your notebook. <ol>
+      <li> Download
+        <a href="protected/timeSeries.zip" class="nav">timeSeries.zip</a>
+          and extract it. This will be your project directory; to add code, simply open
+            <tt> timeSeries.pde </tt> in Processing. No need to
+              download additional files, just start programming! </li>
+
+                <li> Read pages 54-72, and implement the code described in the
+                  book. <b>Change</b> the numerical labels on the x- and y-axes to use the
+                    Georgia font, and all of the text titles to use the Verdana font.
+                      <b>Choose</b> a font size that seems most appropriate to you.
+                        <b>Change</b> the y-axis title to run along the axis, i.e. rotate
+                          it by 90-degrees (hint: look under the Transform section of the
+                            <a class="nav" href="http://processing.org/reference/">reference page</a>).
+                              <b>Make</b> any other changes you feel are appropriate. What did
+                                you change and why? </li>
+
+                                  <li>Read pages 73-82, and implement the code described in the book.
+                                    <b>Allow</b> the user to select which representation to render the data
+                                      using the keyboard. Specifically, let <tt>1</tt> select dots; <tt>2</tt>
+                                        select connected dots; <tt>3</tt> select line chart; <tt>4</tt> select
+                                          filled chart. (hint: look under the Input section of the
+                                            <a class="nav" href="http://processing.org/reference/">reference page</a>).
+                                              <b>Use</b> the Georgia font for the highlight tags on mouse rollover.
+                                                What representation do you think is the most appropriate, and why? </li>
+
+                                                  <li> Read pages 83-93, and implement the code described in the book.
+                                                    You may <b>skip</b> the <i>Better Tab Images</i> section if you want.
+                                                      For the interpolation, a new <tt>Integrator</tt> class has been provided for
+                                                        you. Is this tool an effective way to look at time series data?
+                                                          Why or why not? What is missing? How would you change the tool to support
+                                                            looking at time series with many time points (like > 1000)? </li>
+
+                                                              <li> Next, add an additional tab for a summary view of <i> all </i> the time
+                                                                series data displayed at once. Choose a method for displaying the time series
+                                                                  data that you feel is most effective for displaying multiple series. You do
+                                                                    not need to support mouseover in this view, but you can if you wish! Why did
+                                                                      you choose this visualization method? </li>
+
+                                                                        <li> <b> For 6630 students only. </b> A common statistical technique for time
+                                                                          series data (and scatterplots in general) is finding a regression curve. The
+                                                                            simplest form of regression is
+                                                                              <a class="nav" href="http://en.wikipedia.org/wiki/Simple_linear_regression"> linear regression</a>.
+                                                                                You will be using linear regression to get an equation of a line and mapping this
+                                                                                  onto each time series plot. To get the equation of the line, you are welcome to
+                                                                                    pre-compute this in any statistical software (e.g. Excel, R, etc.), use an existing
+                                                                                      library in Processing or Java, or
+                                                                                        <a href="https://www.khanacademy.org/math/probability/regression/regression-correlation/v/regression-line-example" class="nav">implement the algorithm</a>
+                                                                                          in your code. In your visualization, overlay a regression line on each of the
+                                                                                            individual time series plots. Is there any representation of the time series
+                                                                                              data where a regression line is less effective? Why? </li> </ol>
+
+                                                                                            <p><b>Recommended Books</b><br/>
+                                                                                              <ul><li><a class="nav"
+                                                                                                              href="http://www.amazon.com/gp/product/0596514557?ie=UTF8&tag=processing09-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0596514557">Visualizing
+                                                                                                                Data</a>, by Ben Fry</li>
+                                                                                                              <li><a class="nav"
+                                                                                                                          href="http://www.amazon.com/gp/product/144937980X?ie=UTF8&tag=processing09-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=144937980X">Getting
+                                                                                                                            Started with Processing</a>, by Casey Reas and Ben Fry</li>
+                                                                                                                          <li><a class="nav"
+                                                                                                                                      href="http://www.amazon.com/gp/product/0123736021?ie=UTF8&tag=processing09-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0123736021">Learning
+                                                                                                                                        Processing</a>, by Daniel Shiffman</li>
+                                                                                                                                      </ul>
+
+                                                                                                                                      <p><b>Submission Details</b><br/>
+                                                                                                                                      As before, your digital notebook may be a PDF file, HTML webpage, or a URL to a
+                                                                                                                                      publicly available site or blog, such as a free
+                                                                                                                                      <a class="nav" href="http://www.blogger.com/">Blogger account</a>.
+                                                                                                                                      The notebook should include screenshots of your visualization. </p>
+
+                                                                                                                                      <p> Also, you will be submitting your final Processing code for this assignment.
+                                                                                                                                      Please <b>ZIP</b> up your entire project directory (code and data) to include
+                                                                                                                                      in your submission. We expect to be able to run your visualization as is. You
+                                                                                                                                      may either submit the code in
+                                                                                                                                      <a class="nav" href="https://utah.instructure.com/courses/244719/assignments">Canvas</a>,
+                                                                                                                                      or host it online with a link to it in your digital notebook. </p>
+
+                                                                                                                                      <p> For the final submission in
+                                                                                                                                      <a class="nav" href="https://utah.instructure.com/courses/244719/assignments">Canvas</a>,
+                                                                                                                                      please submit your digital notebook (<b>PDF</b> or <b>ZIP</b>) with your code (<b>ZIP</b>)
+                                                                                                                                      or a link to your digital notebook (<b>URL</b>) which points to your code (<b>ZIP</b>). </p>
+                                                                                                                                      <h1> Already Coded </h1>
+
+                                                                                                                                      <a href="http://projects.kansascitystandard.com/pde/mtc.pde">Milk, Tea, and Coffee .pde file </a> <br>
+                                                                                                                                      <a href="http://projects.kansascitystandard.com/pde/Integrator.pde">Integrator .pde file </a> <br>
+                                                                                                                                      <a href="http://projects.kansascitystandard.com/pde/FloatTable.pde">Float Table .pde file </a> <br>

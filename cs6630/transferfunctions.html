@@ -1,0 +1,267 @@
+<html>
+    <head>
+        <title> Transfer Function Design Assignment </title>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+        <script src="http://dreasgrech.com/upload/jslatex/jquery.jslatex.js"></script>
+
+        <!-- jslatex -->
+        <script>
+            $(function () {
+                $(".latex").latex();
+            });
+        </script>
+
+        <style>
+            body {
+                font-family: 'Cookie', cursive;
+                font-weight: 100;
+                background-color: #330000;
+                color: white;
+            }
+            a {
+                text-decoration:none;
+                color: #0000ff;
+            }
+            a:visited {
+                color: #0000ff;
+            }
+            a:hover {
+                color: black;
+            }
+            #header {
+                height: 10%;
+                font-size: 80px;
+            }
+            #content {
+                /**height: 80%; -- commented out for submission*/
+                overflow: hidden;
+            }
+            #entry {
+                background-color: white;
+                color: black;
+                /**font-family: "Courier New", Courier, monospace;*/
+                font-family: "Noto Sans", sans-serif;
+                padding: 5px;
+            }
+            img.storyboard {
+
+                padding: 20pt;
+
+                margin-right: auto;
+                margin-left: auto;
+                width: 25%;
+            }
+            #entryTitle {
+                font-size: 25px;
+                background-color: #330000;
+                color: white;
+                /**font-family: "Courier New", Courier, monospace;*/
+                font-family: "Noto Sans", sans-serif;
+                /**font-weight: 400;*/
+            }
+            #content:hover {
+                overflow-y: scroll;
+            }
+            #footer{
+                height:10%;
+            }
+            pre#inline{
+                display: inline;
+            }
+            p {display: inline;}
+            /** make a css for all blogs*/
+            /** add header for entries */
+            figure{
+                display:block;
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 20pt;
+            }
+
+            span {
+                border: 1px solid black;
+            }
+            
+            /** make a css for all blogs*/
+            /** add header for entries */
+        </style>
+
+    </head>
+    <body>
+        <div id="header"> Transfer Function Design Notebook </div>
+        <div id="content">
+        <div id="entryTitle"> Design Representation and Encoding </div>
+        <div id="entry">   
+            
+            <h2> Idea #1 </h2>
+
+            <img src='transferfunctions/pictures/idea1.png' height='400'> <br>
+
+            <p> For this first idea I was really trying to conceptually get as far away from the standard 1-d transfer function as I could. With this approach the transfer function is seen as area on a polar graph rather than as an area under a curve. For me this visualization just made more sense because, when you get into this context, values of RGBA you give each at each scalar data value can be viewed as boundary of some circular area. With this approach the user will be able to edit the transfer functions of each color/opacity (RGBA) by dragging the mouse around the circle much as with the linear layout. The widget would be scented with a histogram for reference. The user would be able to select as many of the color channels as they wished. The areas enclosed by each of the transfer functions would be quite transparent so that the user could see the interaction of each of the color channels. </p> 
+
+            <h2> Idea #2 </h2>
+
+            <img src='transferfunctions/pictures/idea2.png' height='400'> <br>
+
+            <p> This sketch is basically what we have from seen from the the ImageVis3D tool. It would allow the user to drag along the widget to set edit each of the transfer functions. The one idea that I had to make this a better editor is below. </p>
+
+            <h2> Idea #3 </h2>
+
+            <img src='transferfunctions/pictures/idea3.png' height='400'> <br>
+
+            <p> This idea is really just an augmentation of the idea I had above. This widget would have a linked view below that would allow the user to zoom in on certain subsegments of the editor. This would allow for more detailed editing of the transfer function. </p> <br> &nbsp;
+        
+        </div>
+        <div id="entryTitle"> Polar Graph </div>
+        <div id="entry">   
+            
+            <h2> Why I Chose It </h2>
+
+            <p> Ultimately I settled on the polar graph idea. This was as much of an experimental choice as anything. I really just wanted to see if it would work and how it would come together. Additionally, as I learned more and more about transfer functions I would think of them in this circular way. It made more sense to me to think of these transfer functions in terms of regions instead of lines. I also found that editing the transfer functions seemed to be easier using this method. </p>
+
+            <h2> Advantages/Disadvantages </h2>
+
+            <p> One of the advantages of this design is that the transparency of the different regions allows the user to see the interaction of the different color channels and the histogram. Another advantage is the ease of editing each transfer function, as you are just dragging the mouse around the circle. Additionally, I think this design is more appealing than the standard linear design. </p> <br> <br>
+            <p> The biggest disadvantage to this design is that the user really has to change how they view transfer functions from spanning across the x-axis to wrapping around a polar graph. This represents a complete shift away from the way these functions are viewed.</p> <br> &nbsp;
+
+        </div>
+        <div id="entryTitle"> Implementation </div>
+        <div id="entry">   
+	<center>
+            <img src='transferfunctions/pictures/controlpanel.png' height='400'>
+        </center>
+            <h2> Polar Coordinate System </h2>
+
+            <p> In implementing this system I had to refresh myself on the <a href='http://en.wikipedia.org/wiki/Polar_coordinate_system'>polar coordinate system</a> and convert from the Cartesian system to the polar system so that Processing could take my <tt>mouseX</tt> and <tt>mouseY</tt> coordinates and map them to the polar graph. For this I used the definitions <br>
+            <center> <div class='latex'> \begin{align*} \rho &= \sqrt{x^2 + y^2} \\ \theta &= \text{atan}2(y,x) \end{align*} </div> </center>
+            The x and y that I used were adjusted so that they were taken in relation to the center of the circle. I also had to come up with a convention for tracking what segment of the graph mouse was in. I did this using an <tt>update()</tt> method. I prototyped the widget <a href='http://cs6630.kansascitystandard.com/polartest.html'>here</a>. Feel free to play around with it. </p> In drawing the transfer functions I used <tt>beginShape()</tt>, <tt>endShape</tt>, and <tt>curveVertex</tt>.
+
+            <h2> Histogram Scenting </h2>
+
+            <p> In order to generate the histogram I wrote a <tt>calcHist()</tt> function. Here is the code:
+            <pre>
+
+            public void calcHist(){
+                // generate histogram data
+                for (int x = 0; x < gridSize; x++){
+                    for (int y = 0; y < gridSize; y++){
+                        for (int z = 0; z < gridSize; z++){          
+                            int bright = data[x][y][z];
+                            hist[bright]++;
+                        }
+                    }
+                }
+    
+                m = -Float.MAX_VALUE;
+   
+                // put into log scale
+                for (int x = 0; x < hist.length; x++){
+                    if (hist[x] == 0){
+                        hist[x] = 0;
+                    } else {
+                        hist[x] = floor(log(hist[x])/log(10));
+                    }
+                }
+                
+                // find largest value in the histogram
+                for (int x = 0; x < gridSize; x++){
+                    if (m < hist[x])
+                    m = hist[x]; 
+                } 
+    
+            }
+
+            </pre>
+
+            For most of the data sets the histograms were nearly worthless because there were a few values that were so high that they rendered the rest of the values unreadable. To solve this I decided to put all of my histogram values in log scale. See the difference below. </p>
+
+            <figure>
+                <img src='transferfunctions/pictures/hist.png' height='400'>
+                <img src='transferfunctions/pictures/logHist.png' height='400'><figcaption> from left to right: standard histogram, histogram with log-scale </figcaption>
+            </figure>
+
+            <p> This scale on the histogram allows the user to more easily view the histogram in a context where they can get the most information. </p>
+
+            <h2> <tt> ControlP5 </tt> Checkbox </h2>
+
+            Using the <a href='http://www.sojamo.de/libraries/controlP5/reference/index.html'>JavaDocs for <tt>ControlP5</tt></a> I was able to gain a little insight in to how to create the checkboxes I used for my controls on my widget. I ended creating the checkboxes with the <tt>addCheckBox()</tt> method and wrote a <tt>controlEvent()</tt> method to make the buttons work. 
+
+        </div>
+        <div id="entryTitle"> Finding Good Transfer Function </div>
+        <div id="entry">   
+            
+            <h2> Dataset 1: Foot </h2>
+
+            <figure>
+                <img src='transferfunctions/pictures/foot1a.png' height='400'>
+                <img src='transferfunctions/pictures/foot1b.png' height='400'> 
+                <figcaption> case 1 </figcaption> 
+            </figure>
+            For this case I used the histogram as a guide for my color channels and set my alpha at 255 for the entire circle. 
+            <figure>
+                <img src='transferfunctions/pictures/foot2a.png' height='400'>
+                <img src='transferfunctions/pictures/foot2b.png' height='400'> 
+                <figcaption> case 2 </figcaption> 
+            </figure>
+            For this case I used the histogram as a guide for my alpha and set my color channels to 255 for the entire cirlce.
+            <figure>
+                <img src='transferfunctions/pictures/foot3a.png' height='400'>
+                <img src='transferfunctions/pictures/foot3b.png' height='400'>
+                <figcaption> case 3 </figcaption> 
+            </figure>
+            For this one I set my alpha and red channels the same from 64 to 192 and 0 everywhere else. I also kept my blue and green channels very low. 
+            <figure>
+                <img src='transferfunctions/pictures/foot4a.png' height='400'>
+                <img src='transferfunctions/pictures/foot4b.png' height='400'>
+                <figcaption> case 4 </figcaption>
+            </figure>
+            For this one I tried to set my color so that they would represent different layers of the foot (i.e. blue - skin, red - bones, green - marrow). <br>
+
+            An interesting thing about this data set for me was that as I looked into saturating the whole of the circle with alpha it was interesting to see the foot emerge. I like using the different colors to identify different parts of the foot. it was pretty difficult to get clean images of the foot with out getting a lot of the background noise.  
+
+            <h2> Dataset 2: Fuel </h2>
+
+            <figure>
+                <img src='transferfunctions/pictures/fuel1a.png' height='400'>
+                <img src='transferfunctions/pictures/fuel1b.png' height='400'> 
+                <figcaption> case 1 </figcaption> 
+            </figure>
+            For this case I used the histogram as a guide for my color channels and set my alpha at 255 for the entire circle. 
+            <figure>
+                <img src='transferfunctions/pictures/fuel2a.png' height='400'>
+                <img src='transferfunctions/pictures/fuel2b.png' height='400'> 
+                <figcaption> case 2 </figcaption> 
+            </figure>
+            For this case I used the histogram as a guide for my alpha and set my color channels to 255 for the entire cirlce.
+            <figure>
+                <img src='transferfunctions/pictures/fuel3a.png' height='400'>
+                <img src='transferfunctions/pictures/fuel3b.png' height='400'>
+                <figcaption> case 3 </figcaption> 
+            </figure>
+            For this one I tried not to overlap the colors much. I was trying to use this case to identify where each of those areas where I have individual colors were. It was not very successful. This led to the following design. 
+            <figure>
+                <img src='transferfunctions/pictures/fuel4a.png' height='400'>
+                <img src='transferfunctions/pictures/fuel4b.png' height='400'>
+                <figcaption> case 4 </figcaption>
+            </figure>
+            For this one I tried to set my color so that they would represent different layers of the fuel (i.e. blue - outer, green - middle, red - innermost). <br><br>
+
+            I think that this became one of my favorite datasets. I really liked trying to get the fuel drop to stand out and to use the colors to be able to see the different layers of the fuel drop. 
+
+            <h2> My Design </h2>
+            As far as strengths of my design I addressed those above. To reiterate, I think that this helps the user see transfer functions in a different way as more of a region and not a function on the cartesian graph. This helped when layering the colors because I could more easily keep the colors separate. As far as weaknesses, it is quite difficult to see the functions that we are used on a polar system. This can lead to mistakes being made. Personally, I really like this design, but I don't know if it is for everyone. <br> <br>
+            In order to make this design more effective, I would like to add some tools to this widget. One tool I could add is the ability to broaden or narrow the stroke of your cursor on the functions. Another tool would be the ability to decrease the radii of all of the transfer functions uniformly for quick erasing. Other than that the ability to have a transition from polar to cartesian and vice versa to accomodate different types of users. <br><br>
+            As far as Volume Rendering is concerned, I feel the pros are that it gives you so many different ways to view a data set. You can let the insides of whatever it is that you are looking at emerge for examination or focus only on the outside. The only con that I can think of is that it might be difficult for people to perform on computers that I don't have the most up to date resources. I guess another challenge is that in order to understand these volume renderings the users have to understand how to look at them. Being first educated on what you are looking at is definitely a barrier to understanding these renderings. 
+            <br><br>
+
+
+
+        </div>
+        
+        <div id="footer"> <br> <br> &copy; 2013 Evan Young</div>
+      </body>
+  </html>
