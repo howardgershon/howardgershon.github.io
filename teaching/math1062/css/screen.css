@@ -1,0 +1,79 @@
+
+html            { text-align: center; padding-bottom: 50px; }
+body            { text-align: left; width: 890px; margin: auto; padding: 50px 15px;
+                  font-family: verdana, sans; font-size: 10pt; line-height: 1.3; 
+                  background: #aaa; }
+
+h1              { width: 100%; text-align: center; font-weight: normal; font-size: 16pt; margin-bottom: 7px; }
+h2              { width: 100%; text-align: center; font-weight: normal; padding-bottom: 10px; font-size: 8pt; }
+.url            { display: none; }
+
+em              { font-style: normal; font-weight: bold; margin-left: -30px; }
+p               { margin-left: 30px; padding: 6px 0; }
+
+table           { border-collapse: collapse; border-spacing: 0; margin: 5px 0px 6px 30px; }
+td              { border: 1px solid black; padding: 3px 8px; }
+td.seccol       { border-right: 0px; }
+td.probcol      { border-left: 0px; border-right: 1px solid black; padding-left: 1px;}
+.secrowtop  td  { border-bottom: 0px; }
+.secrowmid  td  { border-bottom: 0px; border-top: 0px; }
+.secrowbot  td  { border-top: 0px; }
+
+#info           { float: left; width: 450px; padding: 10px 10px 20px 10px; }
+#imggrid        { float: right; width: 380px; padding: 10px; }
+#info, #imggrid { border: 1px solid black; background: white; 
+                  -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; 
+                  -webkit-box-shadow: #666 0px 2px 3px; -moz-box-shadow: #666 0px 2px 3px; box-shadow: #666 0px 2px 3px; 
+                  behavior: url(PIE.htc); }
+/*#imggrid        { background: white url(../blue.png) no-repeat 20px 80px; height: 440px;} */
+/* #imggrid:hover  { background: white url(red.png) no-repeat 20px 80px; } */
+.hidden         { color: white; }
+
+a               { color: black; } /* text-decoration: none; }       */
+a:hover         { color: black; } /* text-decoration: underline; }  */
+
+.img            { float: left; width: 80px; height: 80px; }
+
+#abs-z          { background: white url('i/abs-z.png'); }
+#arg-z          { background: white url('i/arg-z.png'); }
+#re-z           { background: white url('i/re-z.png'); }
+#im-z           { background: white url('i/im-z.png'); }
+#abs-z2         { background: white url('i/abs-z2.png'); }
+#arg-z2         { background: white url('i/arg-z2.png'); }
+#re-z2          { background: white url('i/re-z2.png'); }
+#im-z2          { background: white url('i/im-z2.png'); }
+#abs-z3         { background: white url('i/abs-z3.png'); }
+#arg-z3         { background: white url('i/arg-z3.png'); }
+#re-z3          { background: white url('i/re-z3.png'); }
+#im-z3          { background: white url('i/im-z3.png'); }
+
+#abs-z:hover    { background: white url('i/abs-z-text.png'); }
+#arg-z:hover    { background: white url('i/arg-z-text.png'); }
+#re-z:hover     { background: white url('i/re-z-text.png'); }
+#im-z:hover     { background: white url('i/im-z-text.png'); }
+#abs-z2:hover   { background: white url('i/abs-z2-text.png'); }
+#arg-z2:hover   { background: white url('i/arg-z2-text.png'); }
+#re-z2:hover    { background: white url('i/re-z2-text.png'); }
+#im-z2:hover    { background: white url('i/im-z2-text.png'); }
+#abs-z3:hover   { background: white url('i/abs-z3-text.png'); }
+#arg-z3:hover   { background: white url('i/arg-z3-text.png'); }
+#re-z3:hover    { background: white url('i/re-z3-text.png'); }
+#im-z3:hover    { background: white url('i/im-z3-text.png'); }
+
+.img-cache      { display: none; }
+
+#c-abs-z        { background: white url('i/abs-z-text.png'); }
+#c-arg-z        { background: white url('i/arg-z-text.png'); }
+#c-re-z         { background: white url('i/re-z-text.png'); }
+#c-im-z         { background: white url('i/im-z-text.png'); }
+#c-abs-z2       { background: white url('i/abs-z2-text.png'); }
+#c-arg-z2       { background: white url('i/arg-z2-text.png'); }
+#c-re-z2        { background: white url('i/re-z2-text.png'); }
+#c-im-z2        { background: white url('i/im-z2-text.png'); }
+#c-abs-z3       { background: white url('i/abs-z3-text.png'); }
+#c-arg-z3       { background: white url('i/arg-z3-text.png'); }
+#c-re-z3        { background: white url('i/re-z3-text.png'); }
+#c-im-z3        { background: white url('i/im-z3-text.png'); }
+
+
+/* vi: set nowrap : */
