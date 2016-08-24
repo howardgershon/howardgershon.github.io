@@ -1,0 +1,87 @@
+<!DOCTYPE = 'html'>
+<html>
+
+    <head>
+        <title> Scroll Bar </title>
+        <link href='http://www.kansascitystandard.com/kansas.css' type='text/css' rel = 'stylesheet' />
+
+        <script src="http://www.kansascitystandard.com/processing.js" type="text/javascript"></script>
+
+    </head>
+    <body>
+        <script id='sketch' type='application/processing'>
+
+            float distX;
+            float sliderX = 100;
+
+            PFont font;
+
+            void setup() {
+
+                size(800, 800);
+
+
+
+                boxOver = true;
+
+            }
+
+            void draw() {
+
+                update(mouseX, mouseY);
+
+                background(100);
+
+                line(50, 400, 750, 400);
+
+                rectMode(CORNER);
+
+                if (boxOver){
+                    fill(0);
+                } else {
+                    fill(255);
+                }
+
+                rect(sliderX, 380, 20, 40);
+                font = loadFont("FFScala.ttf");
+                textFont(font, 32);
+                fill(255);
+                text(ceil(map(sliderX+10, 50, 750, 0, 255)), 700, 500);
+
+            }
+
+            void mousePressed(){
+                initX = mouseX;
+            }
+
+            void update(int x, int y) {
+                overBox(sliderX, 380, 20, 40);
+            }
+
+            void mouseDragged() {
+                distX = mouseX - sliderX;
+
+                if (boxOver) {
+                    if (mouseX <= 750 && mouseX >= 50){
+                        sliderX = mouseX  - 10;
+                    }
+                }
+
+            }
+
+            boolean overBox(float x, float y, float width, float height){
+                if ( mouseX <= x + width && mouseX >= x && mouseY >= y && mouseY <= y + height) {
+                    boxOver = true;
+                    } else {
+                    boxOver = false;
+                }
+
+                return boxOver;
+            }
+
+        </script>
+
+        <canvas>
+        </canvas> <br>
+        Scroll Bar!
+</html>

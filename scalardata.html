@@ -1,0 +1,225 @@
+
+<html>
+    <head>
+        <title> Scalar Data Assignment </title>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                font-family: 'Cookie', cursive;
+                font-weight: 100;
+                background-color: #330000;
+                color: white;
+            }
+            a {
+                text-decoration:none;
+                color: #0000ff;
+            }
+            a:visited {
+                color: #0000ff;
+            }
+            a:hover {
+                color: black;
+            }
+            #header {
+                height: 10%;
+                font-size: 80px;
+            }
+            #content {
+                /**height: 80%; -- commented out for submission*/
+                overflow: hidden;
+            }
+            #entry {
+                background-color: white;
+                color: black;
+                /**font-family: "Courier New", Courier, monospace;*/
+                font-family: "Noto Sans", sans-serif;
+                padding: 5px;
+            }
+            img.storyboard {
+
+                padding: 20pt;
+
+                margin-right: auto;
+                margin-left: auto;
+                width: 25%;
+            }
+            #entryTitle {
+                font-size: 25px;
+                background-color: #330000;
+                color: white;
+                /**font-family: "Courier New", Courier, monospace;*/
+                font-family: "Noto Sans", sans-serif;
+                /**font-weight: 400;*/
+            }
+            #content:hover {
+                overflow-y: scroll;
+            }
+            #footer{
+                height:10%;
+            }
+            pre#inline{
+                display: inline;
+            }
+            p {display: inline;}
+            /** make a css for all blogs*/
+            /** add header for entries */
+            figure{
+                display:block;
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 20pt;
+            }
+
+            span {
+                border: 1px solid black;
+            }
+            
+            /** make a css for all blogs*/
+            /** add header for entries */
+        </style>
+
+    </head>
+    <body>
+        <div id="header"> Scalar Data Notebook </div>
+        <div id="content">
+        <div id="entryTitle"> Data Reader </div>
+        <div id="entry">   
+            <p> After reading the page about the NRRD format the assingment provided and examining the dataset I wrote the following <tt>NrrdWrangler</tt> class. 
+            <pre>
+                class NrrdWrangler {
+  
+                    int rowCount;
+                    int colCount;
+                    float[][] data; 
+                    int header; 
+                    
+
+                    NrrdWrangler(String filename, int rowCount, int colCount, int header) {
+                        
+                        String[] rows = loadStrings(filename);
+
+                        this.rowCount = rowCount;
+                        this.colCount = colCount; 
+                        this.header = header;
+
+                        data = new float[rowCount][colCount]; 
+
+                        //trim beforehand
+                        for (int i = 0; i < rowCount; i++){
+                            for (int j = 0; j < colCount; j++){
+                                //data[i][j] = parseFloat(rows[j + (i)*colCount + header]);
+                                data[i][j] = Float.parseFloat(rows[j + i*colCount + header]);
+                                //print(data[i][j] + " ");
+                            }
+                            //print("\n");
+                        }
+                    }
+
+                    float[][] getData(){
+                        return data; 
+                    }
+
+                    float getMax() {
+                        float m = -Float.MAX_VALUE;
+                        for (int i = 0; i < rowCount; i++) {
+                            for (int j = 0; j < colCount; j++){
+                                if (data[i][j] > m) {
+                                    m = data[i][j];
+                                    //println(i);
+                                }
+                            }
+                        }
+                        return m;
+                    }
+
+                    float getMin() {
+                        float m = Float.MAX_VALUE;
+                        for (int i = 0; i < rowCount; i++) {
+                            for (int j = 0; j < colCount; j++){
+                                if (data[i][j] < m) {
+                                    m = data[i][j];
+                                    //println(i);
+                                }
+                            }
+                        }
+                        return m;
+                    }
+
+
+                }
+            </pre>
+            This class takes the .nrrd file skips the header and parses the data into a 2 dimensional array that is the width and height that is specified in the .nrrd file. I wrote into it a <tt>getData()</tt> method to retreive the data array and <tt>getMax()</tt> and <tt>getMin()</tt> methods that are used at various places in my processing code to help me map the data to a [0, 255] range for easy rendering. </p> <br>
+            <br>
+            <p> After writing the <tt>NrrdWrangler.pde</tt> file the first thing that I did was take the data and use it to create the image. I created a grid and used the <tt>rect()</tt> command to fill the grid according the values in the table. </p>
+
+            <figure><img src='./scalardata/pictures/vis1.png' height = "400"><figcaption> figure 1 </figcaption> </figure>
+
+
+        </div>
+        <div id="entryTitle"> Applying a Color Map </div>
+        <div id="entry">
+            My initial attempt at choosing a color scheme was informed by ColorBrewer. I initially chose <span style="background-color: #EFEDF5"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #BCBDDC"> &nbsp; &nbsp; &nbsp; </span>, and <span style="background-color: #756BB1"> &nbsp; &nbsp; &nbsp;</span>  as my colors from one of the three color displays but as you can see in figure 2 below there was not nearly enough contrast. At first I thought that I wasn't using enough colors so I moved to 4 color pallette of <span style="background-color: #0570B0"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #74A9CF"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #BDC9E1"> &nbsp; &nbsp; &nbsp;</span>, and <span style="background-color: #F1EEF6"> &nbsp; &nbsp; &nbsp;</span> which resulted in figure 3. Then an 8 color palette of <span style="background-color: #034E7B"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #0F70B0"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #3690C0"> &nbsp; &nbsp; &nbsp;</span>, <span style="background-color: #74A9CF"> &nbsp; &nbsp; &nbsp;</span>, <span style="background-color: #A6BDDB"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #D0D1E6"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #ECE7F2"> &nbsp; &nbsp; &nbsp;</span>, and <span style="background-color: #FFF7FB"> &nbsp; &nbsp; &nbsp;</span> which resulted in figure 4. These expanded color palettes were too weak and then I realized that instead of taking 3 colors from the there color palette they provided I would take 3 colors from the 9 color palette. This would allow me to select a wider range of colors that provided more contrast. I settled on <span style="background-color: #3F007D"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #6A51A3"> &nbsp; &nbsp; &nbsp; </span>, and <span style="background-color: #BCBDDC"> &nbsp; &nbsp; &nbsp;</span> which resulted in figure 5. This color scheme really seemed to make the visualization pop with contrast. I feel this is a really appropriate color map because it uses colors that are dark enough that none of the visualization gets "washed out" and yet there is still a good amount of contrast so that it is easy on the viewer's eyes. 
+
+            <figure><img src='./scalardata/pictures/vis2.png' height = "412" width="292">
+            <img src='./scalardata/pictures/vis3.png' height = "412" width="292">
+            <img src='./scalardata/pictures/vis4.png' height = "412" width="292"> 
+            <img src='./scalardata/pictures/vis5.png' height = "412" width="292"><figcaption> from left to right: figure 2, figure 3, figure 4, and figure 5 </figcaption> </figure>
+
+        </div>
+        <div id="entryTitle"> Interpolating the Grid </div>
+        <div id="entry">
+            The picture scaled is quite pixelated as you can see in figure 6. Using bilinear interpolation I was able to remedy this problem (figure 7). I used the Wikipedia page referenced in the assignment and created two methods; a <tt>getLocation()</tt> method and a <tt>bilinearInterpolation()</tt>. Both take as arguments the x and y position of a pixel. The <tt>getLocation()</tt> method returns the four data points that are the corners of the cell that the pixel is in and <tt>bilinearInterpolation()</tt> uses those points to interpolate the color that the pixel should be. The only thing that was tricky about the implementation of this method was on the edges of the image. At the edges I used a conditional in <tt>getLocation()</tt> to keep it in the previous cell. Other than that the implementation was pretty straight forward. I don't think there were any values that really stuck out to me. The image just seems more smoothed out.  
+
+
+            <figure><img src='./scalardata/pictures/vis6.png' height = "412" width="292">
+            <img src='./scalardata/pictures/vis7.png' height = "412" width="292"> <figcaption> from left to right: figure 6 and figure 7 </figcaption> </figure>
+
+
+        </div>
+        <div id="entryTitle"> Isocontours using Marching Squares </div>
+        <div id="entry">
+            For the Marching squares algorithms I started by making creating the example cases from the Telea text (as you can see I adopted his ordering for the binary). 
+            <figure><img src='./scalardata/pictures/vis9.png' height = "198" width="626"><figcaption> figure 8 </figcaption> </figure> 
+            From there I looked at equation 5.3 in the book and realized that it is really just the <tt>map()</tt> processing function and used that for my edge interesects. In the gif below I have illustrated using Marching Squares on the test data set at 32700. 
+            <figure><img src='./scalardata/pictures/vis9.gif' height = "412" width="400"><figcaption> figure 9 </figcaption> </figure>
+            And here we have the brain.nrrd dataset at 176 (figure 10), 220 (figure 11), and 227 (figure 12). I have also included a .gif of isovalues 255 - 100 (figure 13). It is also kind of interesting to watch the isocontours with out the image in the background (figure 14).
+            <figure><img src='./scalardata/pictures/vis10.png' height = "412" width="292">
+            <img src='./scalardata/pictures/vis11.png' height = "412" width="292">
+            <img src='./scalardata/pictures/vis12.png' height = "412" width="292"><figcaption> from left to right: figure 10, figure 11, and figure 12</figcaption> </figure>
+            <figure><img src='./scalardata/pictures/vis13.gif' height = "412" width="292">
+            <img src='./scalardata/pictures/vis14.gif' height = "412" width="292"><figcaption> from left to right: figure 13 and figure 14 </figcaption> </figure>
+            I really think that the most interesting isovalue is 227. With this isovalue you see a lot of the noise in the background that you wouldn't otherwise see. These are areas that are smoothed over by the bilinear interpolation. This is what makes the isocontours a more effective tool than the color map. With the isocontours you will be able to see anomalies in the data that might be missed by the naked eye when viewing a color map. I don't think my Marching Squares algorithm has any problems I have used it on all three data sets with any issues. 
+        </div>
+        <div id="entryTitle"> Data Exploration </div>
+        <div id="entry">
+            I tried several different color patterns; from white to the purple I have been using (figure 15), from black to white (figure 16), black to purple to white (figure 17), before finally arriving at balck to dark purble to white (figure 18). 
+             <figure><img src='./scalardata/pictures/vis15.png' height = "412" width="400">
+            <img src='./scalardata/pictures/vis16.png' height = "412" width="400"><figcaption> from left to right: figure 15 and figure 16</figcaption> </figure>
+            <figure><img src='./scalardata/pictures/vis17.png' height = "412" width="400">
+            <img src='./scalardata/pictures/vis18.png' height = "412" width="400"><figcaption> from left to right: figure 17 and figure 18</figcaption> </figure>
+            <p>This data set was hard to understand until I asked my wife, who is from Oregon, why Mt. Hood was such a strange mountain. She informed me that it is a volcano. That made the dataset a little more understandable. With this knowledge, I chose the color map pictured in figure 18. It gives high contrast to the deep lows in the middle of Mt. Hood while still keeping the surrounding area in context. Pictured below is the Marching Squares algorithm implemented on the Mt. Hood data set. </p>
+            <figure><img src='./scalardata/pictures/vis19.png' width = "400" height = "412"><figcaption> figure 19 </figcaption> </figure>
+            <p>Because the Mt. Hood data set had such a wide range of values it was quite different from the brain dataset, where the values were really  just between 100 and 255. This is why the color map needed such tweaking. The isocontours were also quite different as you can see below. The iso contours seem to all converge at the ridge of the volcanic bowl as the isovalues reach 0 (figure 20), ascend a peak down in the volcanic bowl as the isovalue dips below -128 to 0 (figure 21 and figure 22), and climb the mountain as values rise from 0 to 127 (figures 23 and figure 24).  </p>
+            <figure><img src='./scalardata/pictures/vis20.png' height = "412" width="400">
+            <img src='./scalardata/pictures/vis21.png' height = "412" width="400">
+            <img src='./scalardata/pictures/vis22.png' height = "412" width="400"><figcaption> from left to right: figure 20, figure 21, and figure 22</figcaption> </figure>
+            <figure><img src='./scalardata/pictures/vis23.png' height = "412" width="400">
+            <img src='./scalardata/pictures/vis24.png' height = "412" width="400"><figcaption> from left to right: figure 23 and figure 24 </figcaption> </figure>
+            <p>I have to say on both sets the isocontours were much more effective than the color map. I have already addressed the brain data set but with the Mt. Hood data set the isocontours help to make sense of the volcanic bowl (which otherwise does not really make sense to the naked eye). </p>
+        </div>
+        <!--
+        <div id="entryTitle"> Extra Credit 1 </div>
+        <div id="entry">
+
+        </div>
+        <div id="entryTitle"> Extra Credit 2 </div>
+        <div id="entry">
+
+        </div>
+        -->
+        <div id="footer"> <br> <br> &copy; 2013 Evan Young</div>
+      </body>
+  </html>

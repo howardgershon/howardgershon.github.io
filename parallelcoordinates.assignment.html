@@ -1,0 +1,222 @@
+<doctype "html">
+<html>
+    <head>
+        <title> Parallel Coordinates Assignment </title>
+        <style>
+            #random_imgs {
+                margin-top: 10px;
+                float:right;
+                margin-right:0px;
+                margin-left:10px;
+                margin-bottom: 0px;
+            }
+
+        </style>
+        <link href='http://sci.utah.edu/~miriah/teaching.css' rel='stylesheet' type'text/css' />
+    </head>
+
+    <body>
+        <span style='font-size: 40pt;'> The Assignment </span> <br> <br> <br>
+   <p> First, you will want to understand what parallel coordinates are.
+Please read the following short discussions: <ul>
+  <li> <a class="nav" href="http://www.cs.ubc.ca/~tmm/private/book/book.120803.pdf">Section
+  8.1.6.2 <i>Parallel Layouts</i></a> in Information Visualization by Tamara Munzner </li>
+  <li><a class="nav" href="http://sci.utah.edu/~miriah/cs6630/protected/DataVisualization-11.6.pdf">Section 11.6
+  <i>Multivariate Data Visualization</i></a> in Data Visualization by Alexandru Telea </li>
+</ul> </p>
+
+<p> Next, play around with this
+<a href="http://bl.ocks.org/jasondavies/raw/1341281/" class="nav">nice example</a>
+written by Jason Davies in the
+<a href="http://d3js.org/" class="nav">D3.js language</a>.
+Different data can be seen in the
+<a href="http://syntagmatic.github.io/parallel-coordinates/examples/veterans.html" class="nav"><i>veterans</i></a>
+and <a href="http://exposedata.com/parallel/" class="nav"><i>nutrient contents</i></a>
+examples by Kai Chang. In these examples, note that you can
+filter along an axis and rearrange axes. Think about what you like
+in the designs and what you would want to do differently. There are
+many different ways to encode, layout, and interact with data in a
+parallel coordinates plot -- these examples are just one way to do
+this. There is no "right" answer! </p>
+
+<p> <b> Data Wrangling </b> <br/>
+To start, download the <i> cars </i> data set, provided below. Inspect
+the data -- it does not come in the <i>.csv</i> file format that
+you worked with in the TIME SERIES assignment. The data needs to be
+cleaned and processed to get it into Processing. You are welcome to
+re-use the <tt> FloatTable.pde </tt> file reader from the previous
+assignment to import the data. </p>
+
+<p> <b> Basic Visualization </b> <br/>
+Before writing code, pull out a piece of paper. Create a paper
+prototype of what you envision the visualization will look like.
+Consider the basic items that you will render: like axes, data,
+title, labels, tick marks, etc. Think about how you plan to handle
+overlapping lines (e.g. use transparency). Keep this paper prototype;
+use it to motivate your Processing sketch. </p>
+
+<p> Next, create a Processing sketch for the assignment. Get the
+<i> cars </i> data set imported (feel free to use <tt> FloatTable.pde</tt>),
+and write a basic renderer to create a static parallel coordinates plot.
+In your sketch, be sure to label everything you can: titles, tick marks,
+ranges, etc. In your digital notebook, include a screenshot of this static
+version of your visualization. Were you able to include everything that
+you had thought of in your paper prototype? Please record some of your
+thoughts on this sketching and coding process in your notebook. </p>
+
+<p> <b> Interactivity </b> <br/>
+Now, for the fun part! Parallel coordinates are hardly useful without
+interactivity. Instead of worrying about how to code interaction, first
+set the computer aside and pull out another piece of paper. Think about
+how you want to interact with the axes and the data. How would you design
+these interactions to make them effective? At minimum, you must support
+the following basic interactions: <ul>
+  <li> filter the data across multiple attributes </li>
+  <li> reorder / rearrange the axes </li>
+  <li> invert the axes </li> </ul> </p>
+
+<p> For each of these interactions (and any more you want),
+draw a series of story boards, i.e. a sequence of sketches that
+illustrate the steps behind an interaction in the visualization.
+Be sure to show any interface elements that the user will interact with.
+This just needs to be enough to give you an idea of what you want to
+write in the code. Then, create a digital copy of your story boards,
+and add each of the story boards to your digital notebook, with a
+brief description of what is occurring in each story board. </p>
+
+<p> Next, implement your ideas! </p>
+
+<p> In your notebook, include a screenshot of your interactive
+visualization, describe how your interactivity works, and justify
+your design decisions using concepts we have covered in the class.
+Does your design work? What could be improved, given more time, and how?
+Did you come up with any interactivity mechanisms to support tasks other
+than those described above? </p>
+
+<p> <b> Clustering </b> (<i>for 6630 students only | extra credit for
+  5630 students</i>) <br/>
+It is often useful to aggregate multidimensional data into clusters
+of similar data points. A very simple method for aggregation is
+<a class="nav" href="http://en.wikipedia.org/wiki/K-means_clustering">
+k-means clustering</a>. For this portion of the assignment, you must
+use k-means clustering to aggregate data, and develop a way to show
+the clusters in your visualization. </p>
+
+<p> You may use existing k-mean clustering algorithms to create your
+clusters, or be adventurous and implement it yourself (it is
+straight-forward to do). Experiment with number of clusters you
+create and find a number that does a good job in creating meaningful
+clusters. We would recommend doing this experimentation in your
+visualization, once you implement a visual representation for the clusters. </p>
+
+<div id="random_imgs">
+  <img src="http://sci.utah.edu/~miriah/cs6630/images/interactive-color-legend.png" width="76" height="200" />
+</div>
+
+<p> The most obvious way to show clusters is to assign each cluster
+a color (hue) and render the data (lines) in the appropriate color,
+according to their cluster membership. When encoding categorical data
+with color, however, remember that we can only distinguish a limited
+number of colors -- how many can we actually distinguish? Design your
+visual encoding accordingly. You are free to develop a different way
+to encode the clusters if you would like. However you encode the
+clusters, allow the user to choose to show the clusters, or not.
+Include a screenshot of your visualization with the cluster encoding
+in your notebook along with a description of your encoding method. </p>
+
+<p> <b> extra credit: </b>
+A way to accommodate a limited color palette is by creating an
+interactive color legend. An example is shown in the image on the right.
+This legend allows the user to apply a color to a specific group, or
+have a default color of gray. This visualization widget thus serves
+dual purpose: it works as a legend to inform the user about the encoding,
+and it also lets the user dynamically set the color of each group.
+Implement your own interactive color legend. </p>
+
+<p> <b> Data Exploration </b> <br/>
+Explore at least two data sets (one of which should be the <i>cars</i>
+data set) in your parallel coordinates tool. What interesting
+features can you find? For each data set, document several features
+that you find, and include both a description and a screenshot of
+each in your notebook. </p>
+
+<p> Lastly, critique your parallel coordinate visualization in your
+notebook. What do you think of parallel coordinates as a visualization
+representation? Do you find it easy or hard to use? Could you have
+found those same features without interactivity? What are the limits
+of parallel coordinates for data other than quantitative data, and
+how might you visualize that? </p>
+
+<p> <b> Data Sets </b> <br/>
+We have provided the following two data sets and encourage you to use
+both of them in order to get started quickly and therefore have more
+time to explore the data and develop your visualization tool -- we
+recommend you develop your visualization using the <i> cars </i> data
+set. You are welcome to use a different second data set, if you prefer. </p>
+
+<p> <i> cars: </i>
+This data set contains information on 406 different cars from the
+<a class="nav" href="http://stat-computing.org/dataexpo/1983.html">
+1983 ASA Data Exposition data set</a>. </p>
+
+<p> Download:
+<a class="nav" href="http://davis.wpi.edu/xmdv/datasets/cars.html">
+repository </a> <br/>
+
+Source:
+<a class="nav" href="http://stat-computing.org/dataexpo/1983.html">
+American Statistical Association </a> </p>
+
+<p> <i> cameras: </i>
+This data set contains information about 1000+ digital cameras and 13
+different attributes.</p>
+
+<p> Download:
+<a class="nav" href="http://www.aviz.fr/~fekete/scatterdice/data/cameras.csv">
+csv file </a> <br/>
+
+Source:
+<a class="nav" href="http://www.aviz.fr/~fekete/scatterdice/">
+the ScatterDice project </a> </p>
+
+<p> Many other data sets can be obtained from
+<a class="nav" href="http://davis.wpi.edu/xmdv/datasets/">
+XmdvTool</a> or
+<a href="http://vincentarelbundock.github.io/Rdatasets/datasets.html" class="nav">
+R data sets</a>. </p>
+
+
+<p> <b> Recommended Books </b> <br/> <ul>
+  <li>
+    <a class="nav" href="http://www.amazon.com/Data-Visualization-Alexandru-C-Telea/dp/1568813066/ref=sr_1_2?s=books&ie=UTF8&qid=1345483811&sr=1-2&keywords=data+visualization+principles+and+practice">
+    Data Visualization</a>, by Alexandru Telea </li>
+  <li>
+    <a class="nav" href="http://www.amazon.com/gp/product/0262182629?ie=UTF8&tag=processing09-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0262182629">
+    Processing: A Programming Handbook for Visual Designers and Artists</a>,
+    by Casey Reas and Ben Fry </li>
+</ul> </p>
+
+<p> <b> Submission Details </b> <br/>
+As before, your digital notebook may be a PDF file, HTML webpage, or a URL to a
+publicly available site or blog, such as a free
+<a class="nav" href="http://www.blogger.com/">Blogger account</a>.
+The notebook should include screenshots of your visualization. </p>
+
+<p> Also, you will be submitting your final Processing code for this assignment.
+Please <b>ZIP</b> up your entire project directory (code and data) to include
+in your submission. We expect to be able to run your visualization as is. You
+may either submit the code in
+<a class="nav" href="https://utah.instructure.com/courses/244719/assignments">Canvas</a>,
+or host it online with a link to it in your digital notebook. </p>
+
+<p> For the final submission in
+<a class="nav" href="https://utah.instructure.com/courses/244719/assignments">Canvas</a>,
+please submit your digital notebook (<b>PDF</b> or <b>ZIP</b>) with your code (<b>ZIP</b>)
+or a link to your digital notebook (<b>URL</b>) which points to your code (<b>ZIP</b>). </p>
+
+</div>
+
+
+
+    </body>
+</html>
