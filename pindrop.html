@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html { height: 100% }
+        body { height: 100%; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; font-weight: 100; font-size: 40pt; }
+        #map-canvas { height: 78%; width: 70%; float:left}
+        #output {height:78%; width: 20%; float:left; font-size: 20pt; padding:5pt; overflow:scroll;}
+        #list {background-color: #F3EFE0;}
+        #space {height:87%; width:5%; float:left;}
+        #words { color:black; height: 5%; margin-left: 3%; width:100%; background-color:transparent; padding:5px;}
+        #container { background-color: transparent}
+        #footer {position:absolute; height: 3%; width 100%; font-size: 10pt; padding: 5px; top:95%;}
+
+        button {
+            border: solid 1px black;
+            font-family: 'Roboto', sans-serif; font-weight: 300; font-size: 10pt;
+            color: black;
+            border-radius:0px;
+            -moz-border-radius:0px;
+            background: -moz-linear-gradient(top, white 0%, white 51%, white 51%, white 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(51%,#FFFFFF), color-stop(51%,#FFFFFF), color-stop(100%,#FFFFFF));
+        }
+
+        button:hover {
+            color: white;
+            background: black;
+            border: solid 1px white;
+        }
+
+    </style>
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4S0htJdf5znscmtUJdZBrQ8cS_6RIFD4&sensor=false">
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
+    <script type="text/javascript">
+
+        var berlin = new google.maps.LatLng(52.520816, 13.410186);
+
+        var testPins = [
+            ["Chicago, IL", new google.maps.LatLng(41.8500, -87.6501)],
+            ["New York, NY", new google.maps.LatLng(40.6700, -73.9400)],
+            ["San Francisco, CA", new google.maps.LatLng(37.7833, -122.4167)],
+        ];
+
+       var capitals = [
+            ["Montgomery, AL", new google.maps.LatLng(32.30, -86.40)],
+            ["Juneau, AK", new google.maps.LatLng(58.37, -134.58)],
+            ["Phoenix, AZ", new google.maps.LatLng(33.43, -112.02)],
+            ["Little Rock, AR", new google.maps.LatLng(35.22, -92.38)],
+            ["Sacramento, CA", new google.maps.LatLng(38.52, -121.50)],
+            ["Denver, CO", new google.maps.LatLng(39.75, -104.87)],
+            ["Hartford, CT", new google.maps.LatLng(41.73, -72.65)],
+            ["Dover, DE", new google.maps.LatLng(39.13, -75.47)],
+            ["Tallahassee, FL", new google.maps.LatLng(30.38, -84.37)],
+            ["Atlanta, GA", new google.maps.LatLng(33.65, -84.42)],
+            ["Honolulu, HI", new google.maps.LatLng(21.35, -157.93)],
+            ["Boise, ID", new google.maps.LatLng(43.57, -116.22)],
+            ["Springfield, IL", new google.maps.LatLng(39.85, -89.67)],
+            ["Indianapolis, IN", new google.maps.LatLng(39.73, -86.27)],
+            ["Des Moines, IA", new google.maps.LatLng(41.53, -93.65)],
+            ["Topeka, KS", new google.maps.LatLng(39.07, -95.62)],
+            ["Frankfort, KY", new google.maps.LatLng(38.20, -84.87)],
+            ["Baton Rouge, LA", new google.maps.LatLng(30.53, -95.62)],
+            ["Augusta, ME", new google.maps.LatLng(44.32, -69.80)],
+            ["Annapolis, MD", new google.maps.LatLng(38.97, -76.48)],
+            ["Boston, MA", new google.maps.LatLng(42.37, -71.03)],
+            ["Lansing, MI", new google.maps.LatLng(42.77, -84.60)],
+            ["St. Paul, MN", new google.maps.LatLng(44.93, -93.05)],
+            ["Jackson, MS", new google.maps.LatLng(32.32, -90.08)],
+            ["Jefferson City, MO", new google.maps.LatLng(38.60, -92.17)],
+            ["Helena, MT", new google.maps.LatLng(46.60, -112.00)],
+            ["Lincoln, NE", new google.maps.LatLng(40.85, -96.75)],
+            ["Carson City, NV", new google.maps.LatLng(39.15, -119.75)],
+            ["Concord, NH", new google.maps.LatLng(43.20, -71.50)],
+            ["Trenton, NJ", new google.maps.LatLng(40.28, -74.82)],
+            ["Santa Fe, NM", new google.maps.LatLng(35.62, -106.08)],
+            ["Albany, NY", new google.maps.LatLng(42.75, -73.80)],
+            ["Raleigh, NC", new google.maps.LatLng(35.87, -78.78)],
+            ["Bismark, ND", new google.maps.LatLng(46.77, -100.75)],
+            ["Columbus, OH", new google.maps.LatLng(40.00, -82.88)],
+            ["Oklahoma City, OK", new google.maps.LatLng(35.40, -97.60)],
+            ["Salem, OR", new google.maps.LatLng(44.92, -123.00)],
+            ["Harrisburg, PA", new google.maps.LatLng(40.37, -77.42)],
+            ["Providence, RI", new google.maps.LatLng(41.73, -71.43)],
+            ["Columbia, SC", new google.maps.LatLng(33.95, -81.12)],
+            ["Pierre, SD", new google.maps.LatLng(44.38, -100.28)],
+            ["Nashville, TN", new google.maps.LatLng(36.12, -86.68)],
+            ["Austin, TX", new google.maps.LatLng(30.30, -97.70)],
+            ["Salt Lake City, UT", new google.maps.LatLng(40.78, -111.97)],
+            ["Montpelier, VT", new google.maps.LatLng(44.20, -72.57)],
+            ["Richmond, VA", new google.maps.LatLng(37.50, -77.33)],
+            ["Olympia, WA", new google.maps.LatLng(46.97, -122.90)],
+            ["Charleston, WV", new google.maps.LatLng(38.37, -81.60)],
+            ["Madison, WI", new google.maps.LatLng(43.13, -89.33)],
+            ["Cheyenne, WY", new google.maps.LatLng(41.15, -104.82)],
+        ];
+
+        var markers = [];
+        var iterator = 0;
+
+        var map;
+        var counter = 1;
+        var lat;
+        var lng;
+        var geoResults;
+
+        var center;
+
+        var query;
+
+        function initialize() {
+            geoResults = new google.maps.Geocoder();
+
+            var mapOptions = {
+                center: center,
+                zoom: 12,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("map-canvas"),
+                    mapOptions);
+
+            var bound = new google.maps.LatLngBounds();
+
+
+            for(i = 0; i < testPins.length; i++){
+                bound.extend( new google.maps.LatLng(testPins[i][1].lat(), testPins[i][1].lng()) );
+            }
+
+            center = bound.getCenter();
+            map.fitBounds(bound);
+
+        }
+
+        function drop() {
+            for (var i = 0; i < testPins.length; i++) {
+                setTimeout(function() {
+                    addMarker();
+                }, i * 200);
+            }
+            iterator = 0;
+
+            initialize();
+        }
+
+        function addMarker() {
+            markers.push(new google.maps.Marker({
+                position: testPins[iterator][1],
+                map: map,
+                draggable: false,
+                animation: google.maps.Animation.DROP
+            }));
+        iterator++;
+        }
+
+        function addQueryToPins() {
+            query = document.getElementById("query").value;
+
+            addToPins(query.toString());
+        }
+
+        function addToPins(query) {
+            var cities = document.getElementById("cities");
+
+            geoResults.geocode({'address':query}, function(results, status){
+                if(status == google.maps.GeocoderStatus.OK){
+                    testPins.push([query, results[0].geometry.location]);
+                } else {
+                    alert("Geocode was not successful for the following reasons: " + status);
+                }
+            });
+
+            cities.appendChild(document.createTextNode(query));
+            document.getElementById("cities").appendChild(document.createElement("br"));
+
+            initialize();
+        }
+
+        function writeCities() {
+            var cities = document.getElementById("cities");
+
+            for (i = 0; i < testPins.length; i++) {
+                cities.appendChild(document.createTextNode(testPins[i][0].toString()));
+                var br = document.createElement("br");
+                cities.appendChild(br);
+            }
+        }
+
+        function clearPins() {
+            for (i = 0; i < testPins.length+1; i++) {
+                testPins.pop();
+            }
+            testPins.shift();
+            document.getElementById("cities").innerHTML="";
+        }
+
+        function pinCapitals() {
+            var cities = document.getElementById("cities");
+            clearPins();
+            console.log("cleared");
+
+            for (i = 0; i < capitals.length; i++) {
+                testPins.push(capitals[i]);
+                console.log("i: " + i + "capital: " + capitals[i]);
+                cities.appendChild(document.createTextNode(capitals[i][0]));
+                cities.appendChild(document.createElement("br"));
+            }
+
+            intialize();
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+</head>
+<body>
+    <div id="words">
+        &nbsp; Map of Whatever You Want &nbsp; &nbsp;
+    </div>
+       <input type="text" value=" city, state" id="query"> <button id="queryAdd" onclick="addQueryToPins();"> Add to Pins </button> <button  onclick="drop()"> Drop Pins </button> <button onclick="window.location.reload()"> Reload </button> <button onclick="clearPins()"> Clear </button> <button onclick="pinCapitals()"> Capitals Example </button>
+    <div id="space"> </div><div id="map-canvas"></div> <div id="output"> Places:<br> <div id="cities" style="font-size: 10pt"> <script> writeCities();</script></div> <br> <div id="list"> </div></div>
+    <br/>
+    <div id="footer"> &nbsp; &nbsp; under MIT license <div>
+
+</body>
+
+</html>

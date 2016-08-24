@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Product+Sans' rel='stylesheet' type='text/css'>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+  <meta charset="utf-8">
+  <title>Tiles</title>
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+  <style>
+    .flipped {
+  		/*-webkit-transform: rotateY(180deg);*/
+			-webkit-transform: rotate3d (1, -1, 0, 180deg);
+			-webkit-transition-duration: 5s;
+			-webkit-transform-style: preserve-3d;
+			-webkit-transform-origin: center center !important;
+			visibility: visible;
+     }
+
+     .fixed{
+			 transform-style: preserve-3d;
+        position:absolute;
+        top:0;
+        left:0;
+      }
+
+      /* hide back of pane during swap */
+      .hex {
+				backface-visibility: hidden;
+        position: absolute;
+				-webkit-transform-origin: center center !important;
+      }
+
+      /* front pane, placed above back */
+      .front {
+	      z-index: 0;
+	    }
+
+      /* back, initially hidden pane */
+      .back {
+				visibility: hidden;
+	      z-index: 0;
+        /*-webkit-transform: rotateY(180deg);*/
+      }
+
+      .box {
+        color: white;
+        font-family: Product Sans;
+        font-weight: bold;
+        font-size: 150px;
+        display: none;
+        width: 500px; 
+        height: 300px;
+        position: absolute;
+        right: 20;
+        top:20;
+        z-index: 900;
+       }
+  </style>
+</head>
+<body>
+
+  <script>
+  var hexPt = function (c, r) {
+  tacos = []; 
+  for (i = 0; i < 7; i++) { 
+    tacos[i]={}; 
+    tacos[i].x = r*Math.cos(i*Math.PI/3) + c.x; 
+    tacos[i].y = r*Math.sin(i*Math.PI/3) + c.y;
+  }
+  return tacos;
+};
+
+var centers = [];
+    
+var hexes = [];
+
+var lf = d3.svg.line().x(function(d) { return d.x; }).y(function(d) { return d.y; }).interpolate('linear');
+
+var rang = function(min, max, by){
+  var nostep = (max - min)/by;
+  var steps = [];
+  for (j = 0; j < nostep+1; j++){
+    steps.push(j*by+min);
+  }
+  return steps;
+};
+
+var w = window.innerWidth;
+var h = window.innerHeight;
+  
+//var w = 3000;
+//var h = 3000;
+    
+var count = 0;
+var oldcol = '#ccc';
+    
+var rad = 30;
+var sep = rad*Math.sin(2*Math.PI/3);
+var even = rang(0, w, rad*3);
+var odd = rang(1.5*rad, w+3*rad, rad*3);
+var y = rang(0, h, sep);
+
+for(k =0; k < y.length; k++){
+  for(n=0; n<even.length; n++){
+    var pt = {};
+    if(k%2 == 1){
+      pt.x = odd[n];
+      pt.y = y[k];
+      centers.push(pt);
+    } else {
+      pt.x = even[n];
+      pt.y = y[k];
+      centers.push(pt);
+    }
+  }
+}  
+		document.addEventListener('touchstart', function(e){
+        var color = randCol();
+        var isOk  = /^#[0-9A-F]{6}$/i.test(color)
+        if (!isOk) console.log(color);
+        flipTiles(randCol(), count);
+			 count += 1;
+    });
+		
+    $(document).on('keyup', function(e){
+        var color = randCol();
+        var isOk  = /^#[0-9A-F]{6}$/i.test(color)
+        if (!isOk) console.log(color);
+        flipTiles(randCol(), count);
+			 count += 1;
+    });
+  
+    var randCol = function(){
+      var r = Math.floor(Math.random()*255);
+      var g = Math.floor(Math.random()*255);
+      var b = Math.floor(Math.random()*255);
+      var rh = r.toString(16);
+      var gh = g.toString(16);
+      var bh = b.toString(16);
+      return("#"+q(rh)+q(gh)+q(bh));
+    };
+    
+    function q(n){
+      return parseInt(n, 16) > 15 ? "" + n: "0" + n;
+    }
+
+    var place = function(t, a, c, o, s) {
+			console.log('place');
+			var tp = c.y - Math.cos(Math.PI/3);
+			var lef = c.x - o;
+			//console.log('oldcol: ' + t + ' newcol: ' +a)
+      var hexes = svgContainer.append('path')
+        .attr('d', lf(hexPt(c, o)))
+        .attr('fill', a)
+        .attr('class', 'front')
+			  .attr('class', 'hex')
+				.style('top', tp)
+				.style('left', lef)
+				.attr('id', 'hex'+s)
+        .attr('stroke', '#fff')
+        .transition()
+        .duration(1000)
+			  .style('stroke', a);
+     		
+			  //d3.select('#hexf'+s).classed('flipped', false);
+    }
+		
+		var flip = function (f, l, i, p){
+			//d3.select('#hex' + p).classed('flipped', i);
+			//d3.select('body').style('background-color', f);
+			d3.select('#hex' + p).transition().duration(500).style('-webkit-transform', 'rotate3d('+Math.sqrt(3)+', -1, 0, 180deg)').attr('fill', f).transition().duration(200).style('stroke', f);
+			//d3.select('#hex' + p).transition().duration(2000).style('-webkit-transform', 'rotate3d(2, -1, 0, '+(360)+'deg)');
+			//d3.select('#hex' + p).classed('flipped', false);
+		}
+    
+    //var col = '#448aff';
+   var svgContainer = d3.select("body").append("svg")
+                        .attr("width", w)
+                        .attr('class', 'fixed')
+                        .attr("height", h);
+   var flipTiles = function(col, n){ 
+		 console.log(col);
+     document.getElementById('boxee').innerHTML = col;
+     document.getElementById('boxee').style.display = 'block';
+     //oldcol = col;
+     //svgContainer.selectAll('path').remove();
+   centers.forEach(function(e, i){setTimeout(function(){
+		 //console.log(i);
+     if (n === 0) { place(oldcol, col, e, rad, i); flip(col, e, n, i); } else {flip(col, e, n, i)}; //d3.selectAll('#hexf' + i).classed('flipped', true);
+   }, Math.sqrt(Math.pow(e.x,2) + Math.pow(e.y,2)) + (Math.random() * 50));})
+    setTimeout(function(){oldcol = col;}, (Math.sqrt(Math.pow(centers[centers.length-1].x,2) + Math.pow(centers[centers.length-1].y),2)*Math.random()*100));
+   count += 1;
+   }
+   
+   
+
+  </script>
+  <div class='box' id='boxee'> </div>
+  </body>
+
+</html>

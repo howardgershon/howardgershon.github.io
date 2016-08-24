@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Where are the meetups </title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta property="og:image" content='./meetupmap.png'>
+<style type="text/css">
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; font-weight: 100; font-size: 40pt; }
+#map-canvas { height: 78%; width: 90%; float:left;}
+#results {height:78%; width: 20%; float:left; font-family: sans-serif; font-size: 10pt; padding:5pt; overflow:scroll;}
+#list {background-color: #F3EFE0;}
+#space {height:87%; width:5%; float:left;}
+#words { color:black; height: 5%; margin-left: 3%; width:100%; background-color:transparent; padding:5px;}
+#container { background-color: transparent}
+#footer {position:absolute; height: 3%; width: 100%; font-size: 10pt; padding: 5px; top:95%;}
+#res{font-family:'Roboto', sans-serif; font-size: 35pt; float:left; margin-left: 5%;}
+#yes{color:green; display: inline}
+#no{color:red; display: inline}
+
+.invisible {
+display: none;
+}
+</style>
+<script type="text/javascript"
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4S0htJdf5znscmtUJdZBrQ8cS_6RIFD4&sensor=false">
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
+<script type="text/javascript">
+
+var rsvpPins = [];
+var iterator = 0;
+
+
+var map;
+var counter = 1;
+var lat;
+var lng;
+var geoResults;
+var infowindow = new google.maps.InfoWindow();
+		
+var yes = 0;
+var no = 0;
+
+//var center = new google.maps.LatLng(40.78, -111.97);
+
+var center = new google.maps.LatLng(39.8333333,-95.5833333);
+var query;
+
+function initialize() {
+geoResults = new google.maps.Geocoder();
+
+var mapOptions = {
+center: center,
+zoom: 5,
+mapTypeId: google.maps.MapTypeId.roadmap,
+mapTypeControl: false,
+panControl: false,
+zoomControl: false,
+scaleControl: false,
+streetViewControl: false
+};
+map = new google.maps.Map(document.getElementById("map-canvas"),
+mapOptions);
+
+ 
+		
+		var styles = [
+		{
+			"featureType": "road",
+			"elementType": "geometry",
+			"stylers": [
+			  { "visibility": "off" }
+			]
+		},{
+			"featureType": "landscape",
+			"stylers": [
+			  { "weight": 5.8 },
+			  { "saturation": 22 },
+			  { "color": "#efebd6" }
+			]
+		},{
+			"featureType": "poi",
+			"stylers": [
+			  { "saturation": 22 },
+			  { "color": "#efebd6" }
+			]
+		},{
+			"featureType": "transit",
+			"stylers": [
+			{ "weight": 0.1 },
+			{ "color": "#000000" }
+			]
+		},{
+			"featureType": "water",
+			"stylers": [
+			{ "color": "#66ccff" },
+			{ "saturation": -47 }
+			]
+		},{
+			"featureType": "administrative.country",
+			"elementType": "geometry.stroke",
+			"stylers": [
+			  { "color": "#000000" },
+			  { "weight": 1.5 }
+			]
+		},{
+			"featureType": "administrative.province",
+			"elementType": "geometry.stroke",
+			"stylers": [
+			  { "weight": 0.5 },
+			  { "color": "#000000" }
+			]
+		},{
+			"featureType": "administrative.locality",
+			"elementType": "labels",
+			"stylers": [
+			  { "visibility": "off" }
+			]
+		}
+		]
+
+		map.setOptions({styles: styles});
+			
+		}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+//websocket shit
+var makeMark = function(resp, lat, lon, rad, memberName, groupName, city, state, link){
+//set color of circle
+var colr = (resp == 'yes') ? '#097054' : '#F00';
+var rsvpOpt = {
+				strokeColor: colr,
+strokeOpacity: 1,
+strokeWeight: 1,
+fillColor: colr,
+				fillOpacity: .5,
+map : map,
+center: new google.maps.LatLng(lat, lon),
+radius: rad
+}  
+
+rsvpCirc = new google.maps.Circle(rsvpOpt);
+//setTimeout(rsvpCirc.setMap(null), 1000);
+			
+			google.maps.event.addListener(rsvpCirc, 'mouseover', (function(rsvpCirc) {
+				return function() {
+					infowindow.setContent('<b>' + groupName + '<br> <span style="color:' + colr + '">' + resp + '</span> </b> <br>' + memberName + '<br>' + city + ', ' + state);
+					//infowindow.setOptions({maxWidth: 150});
+					infowindow.setPosition(rsvpCirc.center);
+					//console.log(infowindow.position);
+					infowindow.open(map);
+				}
+				})(rsvpCirc));
+					
+			google.maps.event.addListener(rsvpCirc, 'mouseout', function () {infowindow.close()});
+			
+			google.maps.event.addListener(rsvpCirc, 'click', function() {window.location = link})
+
+};
+
+var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
+//ws.onmessage() = function(msg){makeMark(msg.data);};
+	ws.onmessage = function(msg){
+			//var results = document.getElementById('results');
+			var rsvp = JSON.parse(msg.data);
+			var link = rsvp.event['event_url'];
+			var name = rsvp.member['member_name'];
+			var group = rsvp.group['group_name'];
+			var city = rsvp.group['group_city'];
+			var state = rsvp.group['group_state'];
+			var lat = rsvp.group['group_lat'];
+			var lon = rsvp.group['group_lon'];
+			var resp = rsvp['response'];
+			var rad = 15000;
+			var rp = (resp == 'yes') ? 'will' : "won't";
+			
+			(resp == 'yes') ? yes += 1 : no += 1;
+			
+			document.getElementById('yes').innerHTML = yes.toString();
+			document.getElementById('no').innerHTML = no.toString();
+			
+//results.appendChild(document.createTextNode(" * " + name + " " + rp + " meetup with " + group + " in " + city + ', ' + state));
+//results.appendChild(document.createElement('br'));
+makeMark(resp, lat, lon, rad, name, group, city, state, link);
+}; 
+		
+		
+</script>
+</head>
+<body>
+<div id="words">
+&nbsp; Meetup RSVP's &nbsp; &nbsp;
+</div>
+	<br>
+<div id="space"> </div><div id="map-canvas"></div>
+<br/> 
+	<div id = 'res'> <div style='display:inline'> Yes: </div><div id = 'yes'> 0 </div> <div style='display:inline'> No: </div><div id = 'no'> 0 </div></div><br>
+<div id="footer"> &nbsp; &nbsp; under MIT license <div>
+	<img class='invisible' src='./meetupmap.png' />
+</body>
+
+</html>
+
