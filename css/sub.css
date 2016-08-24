@@ -1,0 +1,152 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  height: 1000px;
+  padding: 0;
+  margin: 0;
+}
+#box{
+  margin: 100px;
+  text-align: center;
+  background-color: #55134e;
+  color: white;
+  width: 25%;
+}
+
+header {
+  text-align: center;
+}
+
+nav {
+  text-align: center;
+}
+
+h1 {
+  font-weight: 900;
+  letter-spacing: 10px;
+}
+nav ul li {
+  display:inline;
+  list-style-type: none;
+  text-decoration: none;
+  margin: 2.8em;
+}
+
+a {
+  text-decoration: none;
+  color: blue;
+}
+
+a.visited {
+  text-decoration: none;
+  color: blue;
+}
+
+/*#cont {
+  text-align: center;
+  padding: 10px;
+}*/
+
+section h2 {
+  clear: both;
+  width: 100%;
+  background-color: #ef7351;
+  color: white;
+  padding: 20pt;
+}
+
+section p {
+  margin: 1em 2.5em;
+  font-size: 15pt;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#vis {
+    float:right;
+    width: 20%;
+}
+
+#pp {
+  margin-right: 22%;
+  height: 400px;
+}
+
+#num {
+  float:left; !important
+  width: auto;
+  height: auto;
+  max-width: 400px; !important
+
+}
+
+.num {
+  float:left; !important
+  width: auto;
+  height: auto;
+  max-width: 400px; !important
+
+}
+
+#pf {
+    margin-left: 22%;
+
+}
+
+.pf {
+  margin-left: 22%;
+
+}
+
+#close{
+  z-index:9999;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.jq {
+  height: 100px;
+  width: 100px;
+  display: inline-block;
+  background-color: #F38630;
+  border-radius: 5px;
+  /*position:relative;*/
+  text-align: center;
+  padding: 10px;
+  color: white;
+}
+
+.axis path,
+.axis line{
+  fill: none;
+  stroke: black;
+}
+
+.line{
+  fill: none;
+  stroke: blue;
+  stroke-width: 2px;
+}
+
+.tick text{
+  display: none;
+}
+
+.tick line{
+  opacity: 0.2;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: 28px;
+  pointer-events: none;
+}
