@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>What have I been up to?</title>
+  <link href='https://fonts.googleapis.com/css?family=Product+Sans' rel='stylesheet' type='text/css'>
+  <style>
+    body {
+      font-family: Product Sans;
+    }
+    
+    .swath {
+      width: 100%;
+    }
+    
+    #title {
+      font-size: 100px;
+    }
+    
+    a {
+      text-decoration: none;
+      font-size: 50px;
+    }
+    
+    img {
+      border: 1px solid black;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+  <div id='title'>Projects</div>
+  <br>
+  <a href='./meetup.html'>Meetup RSVP Map</a>
+  <br>
+  <br>
+  <img class='swath' id='swath1' src='./meetupswath.gif'> </img>
+  <br>
+  <br>
+  <a href='./pindrop.html'>Pindrop Map</a>
+  <br>
+  <br>
+  <img class='swath' id='swath2' src='./pindropswath.gif'> </img>
+  <br>
+  <br>
+  <a href='https://github.com/howardgershon/house_analytics'>House Analytics Paper</a>
+  <br>
+  <br>
+  <img class='swath' id='swath3' src='./congressswath.png'> </img>
+  <br>
+  <br>
+  <a href='./wikivis.html'>Wikipedia Edits</a>
+  <br>
+  <br>
+  <img class='swath' id='swath4' src='./wikiswath.gif'> </img>
+  <br>
+  <br>
+  <a href='./tiles.html'>Random Colored Tiles</a>
+  <br>
+  <br>  
+  <img class='swath' id='swath5' src='./tilesswath.gif'> </img>
+  <script>
+    $('#swath1').click(function(){window.location = './meetup.html'});
+    $('#swath2').click(function(){window.location = './pindrop.html'});
+    $('#swath3').click(function(){window.location = 'https://github.com/howardgershon/house_analytics'});
+    $('#swath4').click(function(){window.location = './wikivis.html'});
+    $('#swath5').click(function(){window.location = './tiles.html'});
+  </script>
+</body>
+
+</html>

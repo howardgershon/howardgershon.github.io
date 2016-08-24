@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Bins</title>
+    <link href='https://fonts.googleapis.com/css?family=Product+Sans' rel='stylesheet' type='text/css'>
+    <style>
+      body {
+        font-family: Product Sans;
+	      color: black;
+	      font-weight: bold;
+	      font-size: 40px;
+      }
+      a {
+        text-decoration: none;
+        color: blue;
+      }
+      pre {
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    Twenty of my favorite <a href='http://jsbin.com'>jsBin</a> bins. <br> <br>
+    <script>
+      var bins = [
+        'napeco', 'huzimu', 'yoruzuq', 'zinaci', 'relofa', 'diveyeb', 'roribu', 'xiyajo',
+        'zixinow', 'xikika', 'junico', 'dewape', 'suzebu', 'pisored', 'miwuxe', 'hegoku',
+        'hovote', 'cerupi', 'johuke', 'mejeba'
+      ]
+      window.onload = function() { 
+        bins.forEach(function(d,i){
+          var b = document.body;
+          var bi = document.createTextNode((i+1)+': ');
+          document.body.appendChild(bi);
+          var bt = document.createTextNode(d+'\n');
+          var bd = document.createElement('a');
+          bd.setAttribute('href', "http://jsbin.com/"+d+"/edit?js,output");
+          bd.appendChild(bt);
+          b.appendChild(bd);
+
+          var bb = document.createElement('a');
+          //bb.innerHTML += '<a class = "jsbin-embed" href="http://jsbin.com/'+d+'/embed?js,output">JS Bin on jsbin.com</a>';
+          bb.setAttribute('href', "http://jsbin.com/"+d+"/embed?js,output");
+          bb.setAttribute('class', 'jsbin-embed')
+          bbtext = document.createTextNode('JS Bin on jsbin.com');
+          bb.appendChild(bbtext);
+          b.appendChild(bb);
+          var scripty = document.createElement('script');
+          scripty.setAttribute('src','http://static.jsbin.com/js/embed.min.js?3.39.12');
+          b.appendChild(scripty);
+        })
+      }
+    </script>
+    
+    <!--<a class="jsbin-embed" href="http://jsbin.com/tajiyej/embed?js,output"></a>
+    <a class="jsbin-embed" href="http://jsbin.com/yicemo/embed?js,output">JS Bin on jsbin.com</a>
+    <script src="http://static.jsbin.com/js/embed.min.js?3.39.12" defer> </script> -->
+  </body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reach out and touch me.</title>
+    <link href='https://fonts.googleapis.com/css?family=Product+Sans' rel='stylesheet' type='text/css'>
+    <style>
+      .name {
+	      font-family: Product Sans;
+	      /*color: white;*/
+	      color: #448aff;
+	      font-weight: bold;
+	      font-size: 100px;
+	      position: relative; 
+	      top: 5%;
+	      margin-right: 50px;
+        
+      }
+      .subname {
+	      font-size: 20px;
+ 	      font-weight: normal;	
+	      /*font-family: Avenir Next, Helvetica Neue, sans-serif;*/
+      }
+      .info {
+        font-size: 30px;
+        font-weight: normal;
+      }
+      body {
+        font-family: Product Sans;
+      }
+      a {
+        text-decoration:none;
+      }
+      #vis {
+        height:700px;
+        width:700px;
+        position: absolute;
+        right: 20px;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+    <div class='name' align='left'>Evan Young <br> <div class='subname'>MS student at UC</div></div>
+    <div class='info'>
+      <br>
+      <br>
+      Email: <a href='mailto:evan.d.young@gmail.com'>evan.d.young@gmail.com</a>
+      <br>
+      <br>
+      Cellular or SMS Text Message: <a href='tel:1-801-792-7545'>801.792.7545</a>
+      <br>
+      <br>
+      Snail Mail: 5832 Rocky Pass, West Chester, OH 45069 
+    </div>
+    <div id='vis'>
+      
+    </div>
+    <script>
+    var svg = d3.select('#vis').append('svg').attr('height', 600).attr('width', 600);
+
+var mn = -1;
+var mx = 13;
+
+var a = 0.1;
+var b = 0.1;
+
+//var mn = -1;
+//var mx = 1;
+//var sin9 = function(x){return Math.cos(x);};
+//var sin10 = function(x){return Math.sin(x);};
+
+//var mn = -1;
+//var mx = 1;
+//var sin9 = function(x){return Math.sin(22*x);};
+//var sin10 = function(x){return Math.sin(21*x);};
+
+var mn = -3.5;
+var mx = 3.5;
+var sin9 = function(x){return 2.3*Math.cos(10*x) + Math.cos(23*x);};
+var sin10 = function(x){return 2.3*Math.sin(10*x) - Math.sin(23*x);};
+
+//var mn = -1;
+//var mx = 13;
+//var sin9 = function(x){return x + //Math.sin(5*x);};
+//var sin10 = function(x){return x + Math.sin(6*x);};
+//var sin9 = function(x){return (x-Math.sin(x))};
+//var sin10 = function(x){return(1-Math.cos(x))};
+
+//butterfly curve
+//var mn = -3.5;
+//var mx = 3.5;
+//var sin9 = function(x){return Math.sin(x)*(Math.pow(Math.E, Math.cos(x))-2*Math.cos(4*x)-Math.pow(Math.sin(x/12), 5));};
+//var sin10 = function(x){return Math.cos(x)*(Math.pow(Math.E, Math.cos(x))-2*Math.cos(4*x)-Math.pow(Math.sin(x/12), 5));};
+//var sin9 = function(x){return (1 + 0.5*Math.sin(x))*Math.cos(x);};
+//var sin10 = function(x){return (1 + 0.5*Math.sin(x))*Math.sin(x);};
+//var sin11 = function(x){return (2*Math.sin(x))*Math.cos(x);};
+//var sin12 = function(x){return (2*Math.sin(x))*Math.sin(x);};
+
+//var sin9 = function(x){return x*Math.log(x);};
+//var sin10 = function(x){return Math.pow(x,x);};
+
+//Lissajous Curve
+//var mn = -5;
+//var mx = 5;
+//var sin9 = function(x){return Math.cos(3*x);};
+//var sin10 = function(x){return Math.sin(2*x);};
+
+//var mn = -5;
+//var mx = 5;
+//var sin9 = function(x){return a*Math.cos(x)*Math.pow(Math.E, b*x);};
+//var sin10 = function(x){return a*Math.sin(x)*Math.pow(Math.E, b*x);};
+
+var xs = d3.range(0,(2*Math.PI)+Math.PI/180,Math.PI/180);
+
+var r = d3.scale.linear().domain([mn,mx]).range([390,10]);
+
+var pxs = xs.map(function(d){e={}; e.x=400-r(sin9(d)); e.y=r(sin10(d)); return e;});
+//var pxs2 = xs.map(function(d){e={}; e.x=400-r(sin11(d)); e.y=r(sin12(d)); return e;});
+
+var ln = d3.svg.line().x(function(d){return d.x;}).y(function(d){return d.y;}).interpolate('basis');
+
+//svg.append('path').attr('d',ln(pxs)).attr('stroke','blue').attr('fill', 'transparent');
+
+var i = 1;
+
+svg.append('line').attr('x1', 400-r(0)).attr('x2', 400-r(0)).attr('y1', r(mn)).attr('y2', r(mx)).attr('stroke', 'black');
+svg.append('line').attr('y1', r(0)).attr('y2', r(0)).attr('x1', 400-r(mn)).attr('x2', 400-r(mx)).attr('stroke', 'black');
+
+var placeDot = function(pos){
+  d3.selectAll('.circ').remove();
+  svg.append('circle').attr('cx', pos.x).attr('cy', pos.y)
+      .attr('r', 5).attr('class', 'circ')
+      .attr('stroke','#448aff').attr('fill', '#448aff');
+};
+
+var myInt = setInterval(function(){ 
+  if (i < pxs.length){
+    //if (i%10 === 0) {var el = document.getElementById('tcounter'); el.innerHTML = 't = ' + (i/100) + '<br> x = ' + sin9(xs[i]) + '<br> y = ' + sin10(xs[i]);}
+    svg.append('path').attr('d',ln(pxs.slice(0,i+1)))
+      .attr('stroke','#448aff').attr('fill', 'transparent').attr('opacity', 0.3);
+    placeDot(pxs[i]);
+    i++;
+  } else { clearInterval(myInt); }
+},10);
+/*
+var myInt2 = setInterval(function(){ 
+  if (i < pxs2.length){
+    if (i%10 === 0) {var el = document.getElementById('tcounter'); el.innerHTML = 't = ' + (i/100) + '<br> x = ' + sin11(xs[i]) + '<br> y = ' + sin12(xs[i]);}
+    svg.append('path').attr('d',ln(pxs2.slice(0,i+1)))
+      .attr('stroke','blue').attr('fill', 'red').attr('opacity', 0.2);
+    placeDot(pxs2[i]);
+    i++;
+  } else { clearInterval(myInt); }
+},10);*/
+    </script>
+  </body>
+</html>
