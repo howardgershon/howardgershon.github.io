@@ -230,8 +230,10 @@ body {
 $(function() {
     if (window.location.hash.split('#')[1] == 'uc'){
         $('#sname').html('MS Student at UC');
+        $('#layer6').click(function(){ window.location = './Resume.pdf'})
     } else {
         $('#sname').html('PhD Student at UC');
+        $('#layer6').click(function(){window.location = './resume.pdf'})
     }
     $('#layer').hover(function() {
       //$('#content').attr('src','http://homepages.uc.edu/~youngev/codeclipstill.png');
@@ -353,7 +355,6 @@ $(function() {
       $('#content6').toggleClass('clip, cliphover');
       $('#layer6').html('Resume');
     })
-		$('#layer6').click(function(){ window.location = './resume.pdf'; });
 });
 </script>
 </body>
