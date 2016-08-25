@@ -11,7 +11,7 @@ var code = document.getElementById('code');
 var info = document.getElementById('info');
 
 var source = window.location.hash.split('#')[1];
-var line = (source == 'uc') ? 'I will receive my MS in statistics from the University of Cincinnati.':'I am currently working on my PhD in statistics at the University of Cincinnati.'
+var line = (source == 'uc') ? ' I will receive my MS in statistics from the University of Cincinnati.':' I am currently working on my PhD in statistics at the University of Cincinnati.'
 
 window.addEventListener('load', function(){
   fam.addEventListener('mouseover', function(){
