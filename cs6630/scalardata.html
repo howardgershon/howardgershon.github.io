@@ -2,6 +2,16 @@
 <html>
     <head>
         <title> Scalar Data Assignment </title>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-83149672-1', 'auto');
+          ga('send', 'pageview');
+
+        </script>
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
@@ -76,7 +86,7 @@
             span {
                 border: 1px solid black;
             }
-            
+
             /** make a css for all blogs*/
             /** add header for entries */
         </style>
@@ -86,26 +96,26 @@
         <div id="header"> Scalar Data Notebook </div>
         <div id="content">
         <div id="entryTitle"> Data Reader </div>
-        <div id="entry">   
-            <p> After reading the page about the NRRD format the assingment provided and examining the dataset I wrote the following <tt>NrrdWrangler</tt> class. 
+        <div id="entry">
+            <p> After reading the page about the NRRD format the assingment provided and examining the dataset I wrote the following <tt>NrrdWrangler</tt> class.
             <pre>
                 class NrrdWrangler {
-  
+
                     int rowCount;
                     int colCount;
-                    float[][] data; 
-                    int header; 
-                    
+                    float[][] data;
+                    int header;
+
 
                     NrrdWrangler(String filename, int rowCount, int colCount, int header) {
-                        
+
                         String[] rows = loadStrings(filename);
 
                         this.rowCount = rowCount;
-                        this.colCount = colCount; 
+                        this.colCount = colCount;
                         this.header = header;
 
-                        data = new float[rowCount][colCount]; 
+                        data = new float[rowCount][colCount];
 
                         //trim beforehand
                         for (int i = 0; i < rowCount; i++){
@@ -119,7 +129,7 @@
                     }
 
                     float[][] getData(){
-                        return data; 
+                        return data;
                     }
 
                     float getMax() {
@@ -161,17 +171,17 @@
         </div>
         <div id="entryTitle"> Applying a Color Map </div>
         <div id="entry">
-            My initial attempt at choosing a color scheme was informed by ColorBrewer. I initially chose <span style="background-color: #EFEDF5"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #BCBDDC"> &nbsp; &nbsp; &nbsp; </span>, and <span style="background-color: #756BB1"> &nbsp; &nbsp; &nbsp;</span>  as my colors from one of the three color displays but as you can see in figure 2 below there was not nearly enough contrast. At first I thought that I wasn't using enough colors so I moved to 4 color pallette of <span style="background-color: #0570B0"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #74A9CF"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #BDC9E1"> &nbsp; &nbsp; &nbsp;</span>, and <span style="background-color: #F1EEF6"> &nbsp; &nbsp; &nbsp;</span> which resulted in figure 3. Then an 8 color palette of <span style="background-color: #034E7B"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #0F70B0"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #3690C0"> &nbsp; &nbsp; &nbsp;</span>, <span style="background-color: #74A9CF"> &nbsp; &nbsp; &nbsp;</span>, <span style="background-color: #A6BDDB"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #D0D1E6"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #ECE7F2"> &nbsp; &nbsp; &nbsp;</span>, and <span style="background-color: #FFF7FB"> &nbsp; &nbsp; &nbsp;</span> which resulted in figure 4. These expanded color palettes were too weak and then I realized that instead of taking 3 colors from the there color palette they provided I would take 3 colors from the 9 color palette. This would allow me to select a wider range of colors that provided more contrast. I settled on <span style="background-color: #3F007D"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #6A51A3"> &nbsp; &nbsp; &nbsp; </span>, and <span style="background-color: #BCBDDC"> &nbsp; &nbsp; &nbsp;</span> which resulted in figure 5. This color scheme really seemed to make the visualization pop with contrast. I feel this is a really appropriate color map because it uses colors that are dark enough that none of the visualization gets "washed out" and yet there is still a good amount of contrast so that it is easy on the viewer's eyes. 
+            My initial attempt at choosing a color scheme was informed by ColorBrewer. I initially chose <span style="background-color: #EFEDF5"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #BCBDDC"> &nbsp; &nbsp; &nbsp; </span>, and <span style="background-color: #756BB1"> &nbsp; &nbsp; &nbsp;</span>  as my colors from one of the three color displays but as you can see in figure 2 below there was not nearly enough contrast. At first I thought that I wasn't using enough colors so I moved to 4 color pallette of <span style="background-color: #0570B0"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #74A9CF"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #BDC9E1"> &nbsp; &nbsp; &nbsp;</span>, and <span style="background-color: #F1EEF6"> &nbsp; &nbsp; &nbsp;</span> which resulted in figure 3. Then an 8 color palette of <span style="background-color: #034E7B"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #0F70B0"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #3690C0"> &nbsp; &nbsp; &nbsp;</span>, <span style="background-color: #74A9CF"> &nbsp; &nbsp; &nbsp;</span>, <span style="background-color: #A6BDDB"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #D0D1E6"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #ECE7F2"> &nbsp; &nbsp; &nbsp;</span>, and <span style="background-color: #FFF7FB"> &nbsp; &nbsp; &nbsp;</span> which resulted in figure 4. These expanded color palettes were too weak and then I realized that instead of taking 3 colors from the there color palette they provided I would take 3 colors from the 9 color palette. This would allow me to select a wider range of colors that provided more contrast. I settled on <span style="background-color: #3F007D"> &nbsp; &nbsp; &nbsp; </span>, <span style="background-color: #6A51A3"> &nbsp; &nbsp; &nbsp; </span>, and <span style="background-color: #BCBDDC"> &nbsp; &nbsp; &nbsp;</span> which resulted in figure 5. This color scheme really seemed to make the visualization pop with contrast. I feel this is a really appropriate color map because it uses colors that are dark enough that none of the visualization gets "washed out" and yet there is still a good amount of contrast so that it is easy on the viewer's eyes.
 
             <figure><img src='./scalardata/pictures/vis2.png' height = "412" width="292">
             <img src='./scalardata/pictures/vis3.png' height = "412" width="292">
-            <img src='./scalardata/pictures/vis4.png' height = "412" width="292"> 
+            <img src='./scalardata/pictures/vis4.png' height = "412" width="292">
             <img src='./scalardata/pictures/vis5.png' height = "412" width="292"><figcaption> from left to right: figure 2, figure 3, figure 4, and figure 5 </figcaption> </figure>
 
         </div>
         <div id="entryTitle"> Interpolating the Grid </div>
         <div id="entry">
-            The picture scaled is quite pixelated as you can see in figure 6. Using bilinear interpolation I was able to remedy this problem (figure 7). I used the Wikipedia page referenced in the assignment and created two methods; a <tt>getLocation()</tt> method and a <tt>bilinearInterpolation()</tt>. Both take as arguments the x and y position of a pixel. The <tt>getLocation()</tt> method returns the four data points that are the corners of the cell that the pixel is in and <tt>bilinearInterpolation()</tt> uses those points to interpolate the color that the pixel should be. The only thing that was tricky about the implementation of this method was on the edges of the image. At the edges I used a conditional in <tt>getLocation()</tt> to keep it in the previous cell. Other than that the implementation was pretty straight forward. I don't think there were any values that really stuck out to me. The image just seems more smoothed out.  
+            The picture scaled is quite pixelated as you can see in figure 6. Using bilinear interpolation I was able to remedy this problem (figure 7). I used the Wikipedia page referenced in the assignment and created two methods; a <tt>getLocation()</tt> method and a <tt>bilinearInterpolation()</tt>. Both take as arguments the x and y position of a pixel. The <tt>getLocation()</tt> method returns the four data points that are the corners of the cell that the pixel is in and <tt>bilinearInterpolation()</tt> uses those points to interpolate the color that the pixel should be. The only thing that was tricky about the implementation of this method was on the edges of the image. At the edges I used a conditional in <tt>getLocation()</tt> to keep it in the previous cell. Other than that the implementation was pretty straight forward. I don't think there were any values that really stuck out to me. The image just seems more smoothed out.
 
 
             <figure><img src='./scalardata/pictures/vis6.png' height = "412" width="292">
@@ -181,9 +191,9 @@
         </div>
         <div id="entryTitle"> Isocontours using Marching Squares </div>
         <div id="entry">
-            For the Marching squares algorithms I started by making creating the example cases from the Telea text (as you can see I adopted his ordering for the binary). 
-            <figure><img src='./scalardata/pictures/vis9.png' height = "198" width="626"><figcaption> figure 8 </figcaption> </figure> 
-            From there I looked at equation 5.3 in the book and realized that it is really just the <tt>map()</tt> processing function and used that for my edge interesects. In the gif below I have illustrated using Marching Squares on the test data set at 32700. 
+            For the Marching squares algorithms I started by making creating the example cases from the Telea text (as you can see I adopted his ordering for the binary).
+            <figure><img src='./scalardata/pictures/vis9.png' height = "198" width="626"><figcaption> figure 8 </figcaption> </figure>
+            From there I looked at equation 5.3 in the book and realized that it is really just the <tt>map()</tt> processing function and used that for my edge interesects. In the gif below I have illustrated using Marching Squares on the test data set at 32700.
             <figure><img src='./scalardata/pictures/vis9.gif' height = "412" width="400"><figcaption> figure 9 </figcaption> </figure>
             And here we have the brain.nrrd dataset at 176 (figure 10), 220 (figure 11), and 227 (figure 12). I have also included a .gif of isovalues 255 - 100 (figure 13). It is also kind of interesting to watch the isocontours with out the image in the background (figure 14).
             <figure><img src='./scalardata/pictures/vis10.png' height = "412" width="292">
@@ -191,11 +201,11 @@
             <img src='./scalardata/pictures/vis12.png' height = "412" width="292"><figcaption> from left to right: figure 10, figure 11, and figure 12</figcaption> </figure>
             <figure><img src='./scalardata/pictures/vis13.gif' height = "412" width="292">
             <img src='./scalardata/pictures/vis14.gif' height = "412" width="292"><figcaption> from left to right: figure 13 and figure 14 </figcaption> </figure>
-            I really think that the most interesting isovalue is 227. With this isovalue you see a lot of the noise in the background that you wouldn't otherwise see. These are areas that are smoothed over by the bilinear interpolation. This is what makes the isocontours a more effective tool than the color map. With the isocontours you will be able to see anomalies in the data that might be missed by the naked eye when viewing a color map. I don't think my Marching Squares algorithm has any problems I have used it on all three data sets with any issues. 
+            I really think that the most interesting isovalue is 227. With this isovalue you see a lot of the noise in the background that you wouldn't otherwise see. These are areas that are smoothed over by the bilinear interpolation. This is what makes the isocontours a more effective tool than the color map. With the isocontours you will be able to see anomalies in the data that might be missed by the naked eye when viewing a color map. I don't think my Marching Squares algorithm has any problems I have used it on all three data sets with any issues.
         </div>
         <div id="entryTitle"> Data Exploration </div>
         <div id="entry">
-            I tried several different color patterns; from white to the purple I have been using (figure 15), from black to white (figure 16), black to purple to white (figure 17), before finally arriving at balck to dark purble to white (figure 18). 
+            I tried several different color patterns; from white to the purple I have been using (figure 15), from black to white (figure 16), black to purple to white (figure 17), before finally arriving at balck to dark purble to white (figure 18).
              <figure><img src='./scalardata/pictures/vis15.png' height = "412" width="400">
             <img src='./scalardata/pictures/vis16.png' height = "412" width="400"><figcaption> from left to right: figure 15 and figure 16</figcaption> </figure>
             <figure><img src='./scalardata/pictures/vis17.png' height = "412" width="400">
