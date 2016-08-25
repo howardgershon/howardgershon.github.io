@@ -8,19 +8,19 @@
 	color: #448aff;
 	font-weight: bold;
 	font-size: 100px;
-	position: relative; 
+	position: relative;
 	top: 5%;
 	margin-right: 50px;
 }
 .subname {
 	font-size: 20px;
- 	font-weight: normal;	
+ 	font-weight: normal;
 	/*font-family: Avenir Next, Helvetica Neue, sans-serif;*/
 }
 body {
 	/*background-color: #448AFF;*/
 	background-color: #fff;
-} 
+}
 #content{
   height: 300px;
   position: absolute;
@@ -86,7 +86,7 @@ body {
   position: absolute;
   clip: rect(0, 450px, 330px, 0);
 }
-	
+
 
 
 #content3{
@@ -194,8 +194,8 @@ body {
 	color: white;
 	font-weight: bold;
   font-size: 40px;
-} 
-	
+}
+
 	.clip2 {
   position: absolute;
   clip: rect(0, 429px, 300px, 0);
@@ -208,10 +208,10 @@ body {
 </style>
 <body>
 	<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
-<div class='name' align='right'>Evan Young <br> <div class='subname'>PhD student at UC</div></div>
+    <div class='name' align='right'>Evan Young <br> <div class='subname' id='sname'>PhD student at UC</div></div>
   <img id='content' src='./codeclip.gif'> </img>
   <div id='layer'> Projects </div>
-  
+
   <img id='content2' src='./lecture.gif' class='clip'> </img>
   <div id='layer2'> Teaching </div>
 
@@ -220,7 +220,7 @@ body {
 
   <img id='content4' src='./jsbin.gif'> </img>
   <div id='layer4'> JS Bins </div>
-  
+
   <img id='content5' src='./aol.gif' class='clip2'> </img>
   <div id='layer5'> Contact </div>
 
@@ -228,6 +228,11 @@ body {
   <div id='layer6'> Resume </div>
 <script>
 $(function() {
+    if (window.location.hash.split('#')[1] == 'uc'){
+        $('#sname').html('MS Student at UC');
+    } else {
+        $('#sname').html('PhD Student at UC');
+    }
     $('#layer').hover(function() {
       //$('#content').attr('src','http://homepages.uc.edu/~youngev/codeclipstill.png');
       $(this).css('background-color', 'black');
@@ -256,7 +261,7 @@ $(function() {
       $('#content2, #layer2').css('width', '450px');
       $('#content2, #layer2').css('top', '315px');
       $('#content2, #layer2').css('left', '447.5px');
-      $('#content2').toggleClass('clip, cliphover');      
+      $('#content2').toggleClass('clip, cliphover');
       $('#layer2').html('Teaching');
     },function() {
       //$('#content2').attr('src','http://homepages.uc.edu/~youngev/lecture.gif');
@@ -277,7 +282,7 @@ $(function() {
       $('#content3, #layer3').css('width', '450px');
       $('#content3, #layer3').css('top', '315px');
       $('#content3, #layer3').css('left', '886.5px');
-      $('#content3').toggleClass('clip, cliphover');      
+      $('#content3').toggleClass('clip, cliphover');
       $('#layer3').html('About');
     },function() {
       //$('#content2').attr('src','http://homepages.uc.edu/~youngev/lecture.gif');
@@ -316,7 +321,7 @@ $(function() {
       $('#content5, #layer5').css('width', '450px');
       $('#content5, #layer5').css('top', '645px');
       $('#content5, #layer5').css('left', '447.5px');
-      $('#content5').toggleClass('clip2, cliphover2');      
+      $('#content5').toggleClass('clip2, cliphover2');
       $('#layer5').html('Contact');
     },function() {
       $(this).css('background-color', '#34a853');
@@ -336,7 +341,7 @@ $(function() {
       $('#content6, #layer6').css('width', '450px');
       $('#content6, #layer6').css('top', '645px');
       $('#content6, #layer6').css('left', '886.5px');
-      $('#content6').toggleClass('clip, cliphover');      
+      $('#content6').toggleClass('clip, cliphover');
       $('#layer6').html('Resume');
     },function() {
       $(this).css('background-color', '#ea4335');
@@ -349,7 +354,7 @@ $(function() {
       $('#layer6').html('Resume');
     })
 		$('#layer6').click(function(){ window.location = './resume.pdf'; });
-});	
+});
 </script>
 </body>
 </html>
