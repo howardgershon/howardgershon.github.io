@@ -231,9 +231,11 @@ $(function() {
     if (window.location.hash.split('#')[1] == 'uc'){
         $('#sname').html('MS Student at UC');
         $('#layer6').click(function(){ window.location = './resume82016.pdf'})
+        $('#layer3').click(function(){ window.location = './about.html/#uc'})
     } else {
         $('#sname').html('PhD Student at UC');
         $('#layer6').click(function(){window.location = './resume.pdf'})
+        $('#layer3').click(function(){window.location = './about.html'})
     }
     $('#layer').hover(function() {
       //$('#content').attr('src','http://homepages.uc.edu/~youngev/codeclipstill.png');
@@ -297,7 +299,6 @@ $(function() {
       $('#content3').toggleClass('clip, cliphover');
       $('#layer3').html('About');
     })
-    $('#layer3').click(function(){ window.location = './about.html'; });
     $('#layer4').hover(function() {
       $(this).css('background-color', 'black');
       $(this).css('color', 'white');
