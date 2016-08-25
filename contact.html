@@ -2,6 +2,16 @@
 <html>
   <head>
     <title>Reach out and touch me.</title>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-83149672-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
     <link href='https://fonts.googleapis.com/css?family=Product+Sans' rel='stylesheet' type='text/css'>
     <style>
       .name {
@@ -10,14 +20,14 @@
 	      color: #448aff;
 	      font-weight: bold;
 	      font-size: 100px;
-	      position: relative; 
+	      position: relative;
 	      top: 5%;
 	      margin-right: 50px;
-        
+
       }
       .subname {
 	      font-size: 20px;
- 	      font-weight: normal;	
+ 	      font-weight: normal;
 	      /*font-family: Avenir Next, Helvetica Neue, sans-serif;*/
       }
       .info {
@@ -51,10 +61,10 @@
       Cellular or SMS Text Message: <a href='tel:1-801-792-7545'>801.792.7545</a>
       <br>
       <br>
-      Snail Mail: 5832 Rocky Pass, West Chester, OH 45069 
+      Snail Mail: 5832 Rocky Pass, West Chester, OH 45069
     </div>
     <div id='vis'>
-      
+
     </div>
     <script>
     var svg = d3.select('#vis').append('svg').attr('height', 600).attr('width', 600);
@@ -134,7 +144,7 @@ var placeDot = function(pos){
       .attr('stroke','#448aff').attr('fill', '#448aff');
 };
 
-var myInt = setInterval(function(){ 
+var myInt = setInterval(function(){
   if (i < pxs.length){
     //if (i%10 === 0) {var el = document.getElementById('tcounter'); el.innerHTML = 't = ' + (i/100) + '<br> x = ' + sin9(xs[i]) + '<br> y = ' + sin10(xs[i]);}
     svg.append('path').attr('d',ln(pxs.slice(0,i+1)))
@@ -144,7 +154,7 @@ var myInt = setInterval(function(){
   } else { clearInterval(myInt); }
 },10);
 /*
-var myInt2 = setInterval(function(){ 
+var myInt2 = setInterval(function(){
   if (i < pxs2.length){
     if (i%10 === 0) {var el = document.getElementById('tcounter'); el.innerHTML = 't = ' + (i/100) + '<br> x = ' + sin11(xs[i]) + '<br> y = ' + sin12(xs[i]);}
     svg.append('path').attr('d',ln(pxs2.slice(0,i+1)))

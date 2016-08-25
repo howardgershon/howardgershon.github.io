@@ -3,6 +3,16 @@
 <head>
   <link href='https://fonts.googleapis.com/css?family=Product+Sans' rel='stylesheet' type='text/css'>
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-83149672-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
   <meta charset="utf-8">
   <title>Tiles</title>
   <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
@@ -49,7 +59,7 @@
         font-weight: bold;
         font-size: 150px;
         display: none;
-        width: 500px; 
+        width: 500px;
         height: 300px;
         position: absolute;
         right: 20;
@@ -62,17 +72,17 @@
 
   <script>
   var hexPt = function (c, r) {
-  tacos = []; 
-  for (i = 0; i < 7; i++) { 
-    tacos[i]={}; 
-    tacos[i].x = r*Math.cos(i*Math.PI/3) + c.x; 
+  tacos = [];
+  for (i = 0; i < 7; i++) {
+    tacos[i]={};
+    tacos[i].x = r*Math.cos(i*Math.PI/3) + c.x;
     tacos[i].y = r*Math.sin(i*Math.PI/3) + c.y;
   }
   return tacos;
 };
 
 var centers = [];
-    
+
 var hexes = [];
 
 var lf = d3.svg.line().x(function(d) { return d.x; }).y(function(d) { return d.y; }).interpolate('linear');
@@ -88,13 +98,13 @@ var rang = function(min, max, by){
 
 var w = window.innerWidth;
 var h = window.innerHeight;
-  
+
 //var w = 3000;
 //var h = 3000;
-    
+
 var count = 0;
 var oldcol = '#ccc';
-    
+
 var rad = 30;
 var sep = rad*Math.sin(2*Math.PI/3);
 var even = rang(0, w, rad*3);
@@ -114,7 +124,7 @@ for(k =0; k < y.length; k++){
       centers.push(pt);
     }
   }
-}  
+}
 		document.addEventListener('touchstart', function(e){
         var color = randCol();
         var isOk  = /^#[0-9A-F]{6}$/i.test(color)
@@ -122,7 +132,7 @@ for(k =0; k < y.length; k++){
         flipTiles(randCol(), count);
 			 count += 1;
     });
-		
+
     $(document).on('keyup', function(e){
         var color = randCol();
         var isOk  = /^#[0-9A-F]{6}$/i.test(color)
@@ -130,7 +140,7 @@ for(k =0; k < y.length; k++){
         flipTiles(randCol(), count);
 			 count += 1;
     });
-  
+
     var randCol = function(){
       var r = Math.floor(Math.random()*255);
       var g = Math.floor(Math.random()*255);
@@ -140,7 +150,7 @@ for(k =0; k < y.length; k++){
       var bh = b.toString(16);
       return("#"+q(rh)+q(gh)+q(bh));
     };
-    
+
     function q(n){
       return parseInt(n, 16) > 15 ? "" + n: "0" + n;
     }
@@ -162,10 +172,10 @@ for(k =0; k < y.length; k++){
         .transition()
         .duration(1000)
 			  .style('stroke', a);
-     		
+
 			  //d3.select('#hexf'+s).classed('flipped', false);
     }
-		
+
 		var flip = function (f, l, i, p){
 			//d3.select('#hex' + p).classed('flipped', i);
 			//d3.select('body').style('background-color', f);
@@ -173,13 +183,13 @@ for(k =0; k < y.length; k++){
 			//d3.select('#hex' + p).transition().duration(2000).style('-webkit-transform', 'rotate3d(2, -1, 0, '+(360)+'deg)');
 			//d3.select('#hex' + p).classed('flipped', false);
 		}
-    
+
     //var col = '#448aff';
    var svgContainer = d3.select("body").append("svg")
                         .attr("width", w)
                         .attr('class', 'fixed')
                         .attr("height", h);
-   var flipTiles = function(col, n){ 
+   var flipTiles = function(col, n){
 		 console.log(col);
      document.getElementById('boxee').innerHTML = col;
      document.getElementById('boxee').style.display = 'block';
@@ -192,8 +202,8 @@ for(k =0; k < y.length; k++){
     setTimeout(function(){oldcol = col;}, (Math.sqrt(Math.pow(centers[centers.length-1].x,2) + Math.pow(centers[centers.length-1].y),2)*Math.random()*100));
    count += 1;
    }
-   
-   
+
+
 
   </script>
   <div class='box' id='boxee'> </div>
