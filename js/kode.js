@@ -11,6 +11,7 @@ var code = document.getElementById('code');
 var info = document.getElementById('info');
 
 var source = window.location.hash.split('#')[1];
+var line = (source == 'uc') ? 'I will receive my MS in statistics from the University of Cincinnati.':'I am currently working on my PhD in statistics at the University of Cincinnati.'
 
 window.addEventListener('load', function(){
   fam.addEventListener('mouseover', function(){
@@ -18,7 +19,7 @@ window.addEventListener('load', function(){
     info.style.display = 'inline-block';
   });
   math.addEventListener('mouseover', function(){
-    info.innerHTML = 'I have been studying mathematics for many years. I can remember how exicited I was when I first realized that you could multiply numbers and work outside of base-10. I received my BS in mathematics from the University of Utah in 2013 and my MS in computational engineering and sciences from the University of Utah in 2015.'+(source == 'uc')?' I will receive my MS in Statistics from the University of Cincinnati in 2017.':'I am currently working on my PhD in Statistics at the University of Cincinnati.';
+    info.innerHTML = 'I have been studying mathematics for many years. I can remember how exicited I was when I first realized that you could multiply numbers and work outside of base-10. I received my BS in mathematics from the University of Utah in 2013 and my MS in computational engineering and sciences from the University of Utah in 2015.'+line;
     info.style.display = 'inline-block';
   });
 
