@@ -232,7 +232,7 @@ body {
   <img id='content4' src='./jsbin.gif'> </img>
   <div id='layer4'> JS Bins </div>
 
-  <img id='content5' src='./aol.gif' class='clip2'> </img>
+  <img id='content5' src='./catmail.gif' class='clip2'> </img>
   <div id='layer5'> Contact </div>
 
   <img id='content6' src='./resume.gif' class='clip'> </img>
@@ -380,7 +380,10 @@ $(function() {
   var ht = wd1/1.3633;
   $('.name').css('font-size', '70px');
   $('.name').css('text-align', 'center');
+  $('#sname').css('font-size', '30px');
   $('#sname').css('position', 'relative');
+  $('.name').css('position', 'relative');
+  $('.name').css('margin', 'auto');
   if (window.location.hash.split('#')[1] == 'uc'){
       $('#sname').html('MS Student at UC');
       $('#layer6').click(function(){ window.location = './resume82016.pdf'})
