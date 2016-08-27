@@ -378,12 +378,16 @@ $(function() {
   document.body.sty
   var wd1 = window.innerWidth;
   var ht = wd1/1.3633;
-  $('.name').css('font-size', '70px');
+  $('.name').css('font-size', '120px');
   $('.name').css('text-align', 'center');
   $('#sname').css('font-size', '30px');
   $('#sname').css('position', 'relative');
   $('.name').css('position', 'relative');
   $('.name').css('margin', 'auto');
+  $('.name').css('top', '2%');
+
+  $('#layer, #layer2, #layer3, #layer4, #layer5, #layer6').css('font-size', '100px');
+
   if (window.location.hash.split('#')[1] == 'uc'){
       $('#sname').html('MS Student at UC');
       $('#layer6').click(function(){ window.location = './resume82016.pdf'})
