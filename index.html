@@ -219,7 +219,7 @@ body {
 </style>
 <body>
 	<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
-    <div class='name' align='right'>Evan Young <br> <div class='subname' id='sname'>PhD student at UC</div></div>
+    <div class='name' align='right'><div id='an'>Evan Young</div> <div class='subname' id='sname'>PhD student at UC</div></div>
   <img id='content' src='./codeclip.gif'> </img>
   <div id='layer'> Projects </div>
 
@@ -384,8 +384,9 @@ $(function() {
   $('#sname').css('font-size', '30px');
   $('#sname').css('position', 'relative');
   $('.name').css('position', 'relative');
-  var ll = (window.innerWidth - $('.name').css('width'))/2
-  $('.name').css('margin', ll+'px');
+  var ll = (window.innerWidth - parseInt($('#an').css('width')))/2;
+  console.log(ll);
+  $('#an').css('margin-right', ll+'px');
   $('.name').css('top', '2%');
 
   $('#layer, #layer2, #layer3, #layer4, #layer5, #layer6').css('font-size', '120px');
