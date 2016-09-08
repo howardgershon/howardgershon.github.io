@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Bins</title>
+</head>
+
+<body>
+    <script>
+        var bins = [
+            'tajiyej', 'yicemo', 'vusikob', 'kemivi', 'cotawiq', 'napeco', 'huzimu', 'govedac',
+            'yoruzuq', 'cizolex', 'zinaci', 'fuqosu', 'lefewe', 'relofa', 'lasada', 'diveyeb',
+            'fazacip', 'jofoyur', 'fajuqov', 'roribu', 'huguseq', 'lezido', 'vahiviz', 'xamejol',
+            'xiyajo', 'zixinow', 'wubacep', 'xikika', 'junico', 'dewape', 'zopuki', 'fuxupehebe',
+            'suzebu', 'habines', 'dafumu', 'sucawa', 'pisored', 'lolibi', 'jigadu', 'wotaxe',
+            'mihado', 'bodefe', 'cowisa', 'miwuxe', 'hegoku', 'kuqegi', 'yukelax', 'nagori',
+            'rucena', 'dogiyo', 'rareqi', 'pegozu', 'zusupuv', 'hovote', 'jaretu', 'heqizu',
+            'cerupi', 'liceji', 'qovolo', 'xuvabo', 'memiwi', 'vetunu', 'kihuhi', 'kukixek',
+            'johuke', 'risugu', 'duwowow', 'bukatu', 'mejeba'
+        ]
+        window.onload = function() {
+            bins.forEach(function(d) {
+                var b = document.body;
+                var bt = document.createTextNode(d);
+                var bd = document.createElement('a');
+                bd.setAttribute('href', "http://jsbin.com/" + d + "/edit?js,output");
+                bd.appendChild(bt);
+                document.body.appendChild(bd);
+                var bb = document.createElement('a');
+                //bb.innerHTML += '<a class = "jsbin-embed" href="http://jsbin.com/'+d+'/embed?js,output">JS Bin on jsbin.com</a>';
+                bb.setAttribute('href', "http://jsbin.com/" + d + "/embed?js,output");
+                bb.setAttribute('class', 'jsbin-embed')
+                bbtext = document.createTextNode('JS Bin on jsbin.com');
+                bb.appendChild(bbtext);
+                b.appendChild(bb);
+                var scripty = document.createElement('script');
+                scripty.setAttribute('src', 'http://static.jsbin.com/js/embed.min.js?3.39.12');
+                document.body.appendChild(scripty);
+            })
+        }
+    </script>
+    <!--<a class="jsbin-embed" href="http://jsbin.com/tajiyej/embed?js,output"></a>
+    <a class="jsbin-embed" href="http://jsbin.com/yicemo/embed?js,output">JS Bin on jsbin.com</a>
+    <script src="http://static.jsbin.com/js/embed.min.js?3.39.12" defer> </script> -->
+</body>
+
+</html>
