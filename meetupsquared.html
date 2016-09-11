@@ -21,7 +21,8 @@
   var wss = [];
   var c = 0;
   var wwid = window.innerWidth-30;
-  var svg = d3.select('body').append('svg').attr('height', 1200).attr('width', wwid);
+  var whei = window.innerHeight-30;
+  var svg = d3.select('body').append('svg').attr('height', whei).attr('width', wwid);
   var pos = {};
   //drops block into bin
   var drop = function(n,r){
