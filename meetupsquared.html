@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Meetup Tiles</title>
+  <style>
+    #stuffs {
+      height: 100%
+      width: 100%
+    }
+  </style>
+</head>
+<body>
+  <div id='stuffs'></div>
+  <script>
+  var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
+  //var ws = new WebSocket('ws://wikimon.hatnote.com/en/');
+
+  var wss = [];
+  var c = 0;
+  var wwid = window.innerWidth-30;
+  var svg = d3.select('body').append('svg').attr('height', 1200).attr('width', wwid);
+  var pos = {};
+  //drops block into bin
+  var drop = function(n,r){
+  var col = (r == 'yes')?'#32b92d':'red';
+  var sp = 2;
+  var cht=10;
+  //nubx=100;
+  var nubx = Math.floor(wwid/(cht+sp));
+  console.log(pos);
+  pos.x = (cht+sp)*(n%nubx);
+  pos.y = (cht+sp)*(Math.floor(n/nubx));
+
+  svg.append('rect').attr('height', cht).attr('width', cht)
+    .attr('x', pos.x).attr('y', pos.y).attr('fill', col).attr('class', 'b'+n);
+  }
+
+  ws.onmessage =function(msg){
+  //    if(JSON.parse(msg.data).geo_ip != 'undefined'){
+  //      document.getElementById('stuffs').innerHTML = JSON.stringify(JSON.parse(msg.data).geo_ip.longitude) + ', ' + //JSON.stringify(JSON.parse(msg.data).geo_ip.latitude);
+  //    }
+    //console.log('this')
+
+    wss.push(JSON.parse(msg.data));
+    var a = JSON.parse(msg.data).response;
+    drop(c, a);
+    c += 1;
+    //document.getElementById('stuffs').innerHTML = JSON.stringify(JSON.parse(msg.data));
+  };
+  </script>
+</body>
+
+</html>
