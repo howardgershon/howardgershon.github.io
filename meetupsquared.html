@@ -39,17 +39,19 @@
     pos.x = (cht+sp)*(n%nubx);
     pos.y = (cht+sp)*(Math.floor(n/nubx));
 
+    var tooltip = function(t,u,l,e){
+
+      d3.select('#ttip').style('position','absolute').style('left', d3.event.pageX+20+'px')
+        .style('top', d3.event.pageY).style('display', 'block')
+        .html('Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response'+t);
+    }
+
     svg.append('rect').attr('height', cht).attr('width', cht)
       //.attr('x', pos.x).attr('y', pos.y).attr('fill', col).attr('class', 'b'+n);
       .attr('x', (cht+sp)*(n%nubx)).attr('y', (cht+sp)*(Math.floor(n/nubx))).attr('fill', col).attr('class', 'b'+n)
       .on('mouseover', tooltip(r,m,t,e));
 
-    var tooltip = function(t,u,l,e){
 
-      d3.select('#ttip').style('position','absolute').style('left', d3.event.x+20+'px')
-        .style('top', d3.event.y).style('display', 'block')
-        .html('Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response'+t);
-    }
   }
 
   ws.onmessage =function(msg){
