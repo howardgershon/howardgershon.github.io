@@ -35,7 +35,7 @@
     var cht=10;
     //nubx=100;
     var nubx = Math.floor(wwid/(cht+sp));
-    console.log(pos);
+    //console.log(pos);
     pos.x = (cht+sp)*(n%nubx);
     pos.y = (cht+sp)*(Math.floor(n/nubx));
 
@@ -61,6 +61,7 @@
     //document.getElementById('stuffs').innerHTML = JSON.stringify(JSON.parse(msg.data));
   };
   var tooltip = function(t,u,l,e){
+    console.log('this works');
     d3.select('#ttip').style('position','absolute').style('left', d3.event.x+20+'px')
       .style('top', d3.event.y).style('display', 'block')
       .html('Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response'+t);
