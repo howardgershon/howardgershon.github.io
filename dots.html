@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <button onclick='(!reV) ? renderV() : rerender()'> Look at Votes </button>
+  <script>
+    var bills = [];
+    var ind = d3.range(100);
+    var catCol = d3.scale.category20();
+    var x = d3.scale.ordinal().domain(d3.range(10)).rangeRoundBands([83, 417], .1);
+    var reV = false;
+
+    ind.forEach(function(d){
+    var b = {};
+    b.vote = Math.round(Math.random());
+    b.date = parseInt(Math.random()*10);
+    b.cat = parseInt(Math.random()*5);
+    bills.push(b);
+    });
+
+    var svg = d3.select('body').append('svg').attr('height', 500).attr('width', 500);
+
+    svg.append('line').attr('x1', 50).attr('x2', 450).attr('y1',250).attr('y2',250).attr('stroke', 'black');
+
+    var render = function(){
+    d3.range(10).forEach(function(d){
+      var n = 0;
+      bills.filter(function(el){if(el.date === d) {el.order = n; n+=1; return d;};})
+    });
+
+    svg.selectAll('circle').data(bills).enter().append('circle')
+      .attr('class', 'votes')
+      .attr('cx', function(d){
+        return x(d.date);
+      })
+      .attr('cy', function(d){
+        return 250 - (d.order+1)*15
+      })
+      .attr('fill', function(d){
+        return catCol(d.cat);
+      })
+      .attr('r', 5);
+    }
+
+    var renderV = function(){
+    reV = true;
+    d3.range(10).forEach(function(d){
+      var n = 0;
+      bills.filter(function(el){if(el.date === d && el.vote === 1) {el.order = n; n+=1; return d;};})
+    });
+
+    d3.range(10).forEach(function(d){
+      var n = 0;
+      bills.filter(function(el){if(el.date === d && el.vote === 0) {el.order = n; n+=1; return d;};})
+    });
+
+    svg.selectAll('.votes').data(bills)
+      .transition().duration(800)
+      .attr('cx', function(d){
+        return x(d.date);
+      })
+      .attr('cy', function(d){
+        if (d.vote === 0){
+          return 250 - (d.order+1)*15
+        } else {
+          return 250 + (d.order+1)*15
+        }
+      })
+      .attr('fill', function(d){
+        return catCol(d.cat);
+      })
+      .attr('r', 5);
+    }
+
+    var rerender = function(){
+    reV = false;
+    d3.range(10).forEach(function(d){
+      var n = 0;
+      bills.filter(function(el){if(el.date === d) {el.order = n; n+=1; return d;};})
+    });
+
+    svg.selectAll('circle').data(bills)
+      .transition().duration(800)
+      .attr('class', 'votes')
+      .attr('cx', function(d){
+        return x(d.date);
+      })
+      .attr('cy', function(d){
+        return 250 - (d.order+1)*15
+      })
+      .attr('fill', function(d){
+        return catCol(d.cat);
+      })
+      .attr('r', 5);
+    }
+
+    render();
+  </script>
+</body>
+</html>

@@ -43,10 +43,11 @@
     pos.y = (cht+sp)*(Math.floor(n/nubx));
 
     var tooltip = function(t,u,l,e,x,y,w){
+      //console.log(w);
       d3.select('#ttip').style('position','absolute').style('left', x+20+'px')
         .style('top', y+20+'px').style('display', 'block')
         .html('<img src='+w+'> <br/> Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response: '+t);
-      console.log(d3.select('#ttip').html());
+      //console.log(d3.select('#ttip').html());
     }
 
     svg.append('rect').attr('height', cht).attr('width', cht)
@@ -78,7 +79,7 @@
     var e = b.group.group_name;
     var w = b.member.photo;
     //console.log(w);
-    drop(c,a,d,r,e);
+    drop(c,a,d,r,e,w);
     c += 1;
     //document.getElementById('stuffs').innerHTML = JSON.stringify(JSON.parse(msg.data));
   };
