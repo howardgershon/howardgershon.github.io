@@ -10,9 +10,13 @@
       height: 100%
       width: 100%
     }
+    #ttip {
+      display: none;
+    }
   </style>
 </head>
 <body>
+  <div id='ttip'> </div>
   <div id='stuffs'></div>
   <script>
   var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
@@ -25,18 +29,19 @@
   var svg = d3.select('body').append('svg').attr('height', whei).attr('width', wwid);
   var pos = {};
   //drops block into bin
-  var drop = function(n,r){
-  var col = (r == 'yes')?'#32b92d':'red';
-  var sp = 2;
-  var cht=10;
-  //nubx=100;
-  var nubx = Math.floor(wwid/(cht+sp));
-  console.log(pos);
-  pos.x = (cht+sp)*(n%nubx);
-  pos.y = (cht+sp)*(Math.floor(n/nubx));
+  var drop = function(n,r,m,t,e){
+    var col = (r == 'yes')?'#32b92d':'red';
+    var sp = 2;
+    var cht=10;
+    //nubx=100;
+    var nubx = Math.floor(wwid/(cht+sp));
+    console.log(pos);
+    pos.x = (cht+sp)*(n%nubx);
+    pos.y = (cht+sp)*(Math.floor(n/nubx));
 
-  svg.append('rect').attr('height', cht).attr('width', cht)
-    .attr('x', pos.x).attr('y', pos.y).attr('fill', col).attr('class', 'b'+n);
+    svg.append('rect').attr('height', cht).attr('width', cht)
+      .attr('x', pos.x).attr('y', pos.y).attr('fill', col).attr('class', 'b'+n)
+      .on('mouseover', tooltip(r,m,t,e));
   }
 
   ws.onmessage =function(msg){
@@ -46,11 +51,20 @@
     //console.log('this')
 
     wss.push(JSON.parse(msg.data));
-    var a = JSON.parse(msg.data).response;
-    drop(c, a);
+    var b = JSON.parse(msg.data)
+    var a = b.response;
+    var d = b.member.member_name;
+    var r = b.group.group_city;
+    var e = b.group.group_name;
+    drop(c,a,d,r,e);
     c += 1;
     //document.getElementById('stuffs').innerHTML = JSON.stringify(JSON.parse(msg.data));
   };
+  var tooltip = function(t,u,l,e){
+    d3.select('#ttip').style('position','absolute').style('left', d3.event.x+20+'px')
+      .style('top', d3.event.y).style('display', 'block')
+      .html('Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response'+t);
+  }
   </script>
 </body>
 
