@@ -38,7 +38,7 @@
     var cht=10;
     //nubx=100;
     var nubx = Math.floor(wwid/(cht+sp));
-    console.log((cht+sp)*(n%nubx));
+    //console.log((cht+sp)*(n%nubx));
     pos.x = (cht+sp)*(n%nubx);
     pos.y = (cht+sp)*(Math.floor(n/nubx));
 
@@ -76,6 +76,7 @@
     var r = b.group.group_city;
     var e = b.group.group_name;
     var w = b.member.photo;
+    console.log(w);
     drop(c,a,d,r,e);
     c += 1;
     //document.getElementById('stuffs').innerHTML = JSON.stringify(JSON.parse(msg.data));
