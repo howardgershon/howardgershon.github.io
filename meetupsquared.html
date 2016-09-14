@@ -45,7 +45,8 @@
     var tooltip = function(t,u,l,e,x,y,w){
       d3.select('#ttip').style('position','absolute').style('left', x+20+'px')
         .style('top', y+20+'px').style('display', 'block')
-        .html('<img src='+w+'/> <br/> Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response: '+t);
+        .html('<img src='+w+'> <br/> Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response: '+t);
+      console.log(d3.select('#ttip').html());
     }
 
     svg.append('rect').attr('height', cht).attr('width', cht)
