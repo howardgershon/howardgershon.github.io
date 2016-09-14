@@ -40,8 +40,9 @@
     pos.y = (cht+sp)*(Math.floor(n/nubx));
 
     svg.append('rect').attr('height', cht).attr('width', cht)
-      .attr('x', pos.x).attr('y', pos.y).attr('fill', col).attr('class', 'b'+n)
-      .on('mouseover', tooltip(r,m,t,e));
+      //.attr('x', pos.x).attr('y', pos.y).attr('fill', col).attr('class', 'b'+n);
+      .attr('x', (cht+sp)*(n%nubx)).attr('y', (cht+sp)*(Math.floor(n/nubx))).attr('fill', col).attr('class', 'b'+n);
+      //.on('mouseover', tooltip(r,m,t,e));
   }
 
   ws.onmessage =function(msg){
@@ -60,12 +61,7 @@
     c += 1;
     //document.getElementById('stuffs').innerHTML = JSON.stringify(JSON.parse(msg.data));
   };
-  var tooltip = function(t,u,l,e){
 
-    d3.select('#ttip').style('position','absolute').style('left', d3.event.x+20+'px')
-      .style('top', d3.event.y).style('display', 'block')
-      .html('Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response'+t);
-  }
   </script>
 </body>
 
