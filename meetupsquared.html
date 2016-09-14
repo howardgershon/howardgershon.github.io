@@ -32,7 +32,7 @@
   var svg = d3.select('body').append('svg').attr('height', whei).attr('width', wwid);
   var pos = {};
   //drops block into bin
-  var drop = function(n,r,m,t,e){
+  var drop = function(n,r,m,t,e,w){
     var col = (r == 'yes')?'#32b92d':'red';
     var sp = 2;
     var cht=10;
@@ -42,10 +42,10 @@
     pos.x = (cht+sp)*(n%nubx);
     pos.y = (cht+sp)*(Math.floor(n/nubx));
 
-    var tooltip = function(t,u,l,e,x,y){
+    var tooltip = function(t,u,l,e,x,y,w){
       d3.select('#ttip').style('position','absolute').style('left', x+20+'px')
         .style('top', y+20+'px').style('display', 'block')
-        .html('Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response: '+t);
+        .html('<img src='+w+'/> <br/> Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response: '+t);
     }
 
     svg.append('rect').attr('height', cht).attr('width', cht)
@@ -54,7 +54,7 @@
       .on('mouseover', function(d){
         var x = d3.event.pageX;
         var y = d3.event.pageY;
-        tooltip(r,m,t,e,x,y)
+        tooltip(r,m,t,e,x,y,w)
       })
       .on('mouseout', function(d){
         d3.select('#ttip').style('display', 'none')
@@ -75,6 +75,7 @@
     var d = b.member.member_name;
     var r = b.group.group_city;
     var e = b.group.group_name;
+    var w = b.member.photo;
     drop(c,a,d,r,e);
     c += 1;
     //document.getElementById('stuffs').innerHTML = JSON.stringify(JSON.parse(msg.data));
