@@ -14,6 +14,7 @@
       display: none;
       background-color: black;
       color: white;
+      padding: 5px;
     }
   </style>
 </head>
@@ -42,9 +43,9 @@
     pos.y = (cht+sp)*(Math.floor(n/nubx));
 
     var tooltip = function(t,u,l,e,x,y){
-      d3.select('#ttip').style('position','absolute').style('left', y+20+'px')
+      d3.select('#ttip').style('position','absolute').style('left', x+20+'px')
         .style('top', y).style('display', 'block')
-        .html('Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response'+t);
+        .html('Name: '+u+'<br /> Group Name:'+e+'<br /> Group City: '+l+'<br /> Response: '+t);
     }
 
     svg.append('rect').attr('height', cht).attr('width', cht)
