@@ -48,7 +48,7 @@
     svg.append('rect').attr('height', cht).attr('width', cht)
       //.attr('x', pos.x).attr('y', pos.y).attr('fill', col).attr('class', 'b'+n);
       .attr('x', (cht+sp)*(n%nubx)).attr('y', (cht+sp)*(Math.floor(n/nubx))).attr('fill', col).attr('class', 'b'+n)
-      .on('mouseover', tooltip(r,m,t,e,d3.event.pageX, d3.event.pageY));
+      .on('mouseover', function(d){tooltip(r,m,t,e,d3.event.pageX, d3.event.pageY)});
 
 
   }
