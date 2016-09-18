@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Seating Chart</title>
+</head>
+<body>
+<script>
+  var points = [];
+  var svg = d3.select('body').append('svg')
+  .attr('height', 520)
+  .attr('width', 520);
+
+  var arc = d3.svg.arc()
+  .innerRadius(50)
+  .outerRadius(256)
+  .startAngle(Math.PI*1.5)
+  .endAngle(Math.PI*0.5);
+
+  var semi = svg.append('path')
+  .attr('d', arc)
+  //.attr('transform', 'rotate(180)')
+  .style('fill', '#fff')
+  .style('stroke', '#000')
+  .attr('transform', 'translate(260, 260) rotate(180)');
+  //.on('mouseover', function(d){
+  //  d3.select(this).style('fill', '#ccc');
+  //});
+  //.on('mouseleave', function(d){
+  //  d3.select(this).style('fill', '#fff');
+  //});
+
+  placeArc = function(r){
+  var arc1 = d3.svg.arc()
+    .innerRadius(r)
+    .outerRadius(r+1)
+    .startAngle(Math.PI*1.5)
+    .endAngle(Math.PI*0.5);
+
+  svg.append('path')
+    .attr('d', arc1)
+    .attr('transform', 'rotate(180)')
+    .style('fill', '#fff')
+    .style('stroke', '#000');
+  };
+
+  var makePoints = function(r,n){
+  var π = Math.PI;
+  var poran = d3.range((π*0.5+π/n), (π*1.5), π/(n+2));
+  if (poran.length > n+1) {
+    n=n+1;
+    poran = d3.range((π*0.5-+π/n), (π*1.5), π/(n+2)).slice(0,n+1);
+  }
+  //points = [];
+  poran.forEach(function(d){
+     var d1 = d+π;
+     points.push({x: (r*Math.cos(d)) ,
+                  y:  (r*Math.sin(d))});
+  });
+  return points;
+  };
+
+  var placeCirc = function(r,n,s){
+  var poin = makePoints(r,n);
+  console.log(points.length);
+  s.selectAll("circle")
+      .data(poin)
+      .enter().append("circle")
+      .style("stroke", "white")
+      .style("fill", function(d, i){ return (i%3 === 0) ? "red" : "green";})
+      .style('opacity', '1')
+      .attr("r", 5)
+      .attr('transform', 'translate(260, 260) rotate(90)')
+      .attr("cx", function(d){return d.x;})
+      .attr("cy", function(d){return d.y;})
+      .on;
+  };
+
+
+
+  var doIt = function() {
+  for (i = 1; i < 12; i++){//console.log(i*18+45);
+  var nn = Math.floor((i*18.05+45)*Math.PI/(55*Math.PI/14));
+  placeCirc(i*18.05+45, nn, svg);}
+  };
+
+  doIt();
+</script>
+</body>
+</html>
