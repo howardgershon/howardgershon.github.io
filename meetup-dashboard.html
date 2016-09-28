@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Where are the meetups </title>
+<link href='https://fonts.googleapis.com/css?family=Product+Sans' rel='stylesheet' type='text/css'>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta property="og:image" content='./meetupmap.png'>
+<style type="text/css">
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; font-weight: 100; font-size: 40pt; }
+  #map-canvas { height: 100%; width: 45%; float:left; margin: 50px; display: inline-block; position: abosolute;}
+  #results {height:78%; width: 20%; float:left; font-family: sans-serif; font-size: 10pt; padding:5pt; overflow:scroll;}
+  #list {background-color: #F3EFE0;}
+  #space {height:87%; width:5%; float:left;}
+  #words { color:black; height: 5%; margin-left: 3%; width:100%; background-color:transparent; padding:5px;}
+  #container { background-color: transparent}
+  #footer {position:absolute; height: 3%; width: 100%; font-size: 10pt; padding: 5px; top:95%;}
+  #res{font-family:'Roboto', sans-serif; font-size: 35pt; float:left; margin-left: 5%;}
+  #yes{color:green; display: inline}
+  #no{color:red; display: inline}
+  #title{font-size:40pt; font-family: Product Sans; font-weight: 100; margin: 50px; display: inline-block;}
+  #week{font-size: 10pt; margin: 50px; width: 35%; display: inline-block;}
+  #bar{float:left; display: inline-block;}
+  #donut{display: inline-block; margin-left: 50px;}
+.invisible {
+display: none;
+}
+  .axis,
+	.axis text {
+		z-index: 0;
+		color: #000;
+  	font-family:'Roboto', sans-serif;
+		font-weight: 100;
+		font-size: 10px;
+	}
+
+		.bar {
+  		fill: steelblue;
+		}
+
+		.axis path,
+		.axis line{
+  		fill: none;
+  		stroke: #000;
+			color: #000;
+  		shape-rendering: crispEdges;
+		}
+</style>
+<script type="text/javascript"
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4S0htJdf5znscmtUJdZBrQ8cS_6RIFD4&sensor=false">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
+<script type="text/javascript">
+
+var rsvpPins = [];
+var iterator = 0;
+
+
+var map;
+var counter = 1;
+var lat;
+var lng;
+var geoResults;
+var infowindow = new google.maps.InfoWindow();
+
+var yes = 0;
+var no = 0;
+
+//var center = new google.maps.LatLng(40.78, -111.97);
+
+var center = new google.maps.LatLng(39.8333333,-95.5833333);
+var query;
+
+function initialize() {
+geoResults = new google.maps.Geocoder();
+
+var mapOptions = {
+center: center,
+zoom: 4,
+mapTypeId: google.maps.MapTypeId.roadmap,
+mapTypeControl: false,
+panControl: false,
+zoomControl: false,
+scaleControl: false,
+streetViewControl: false
+};
+map = new google.maps.Map(document.getElementById("map-canvas"),
+mapOptions);
+
+
+
+		var styles = [
+		{
+			"featureType": "road",
+			"elementType": "geometry",
+			"stylers": [
+			  { "visibility": "off" }
+			]
+		},{
+			"featureType": "landscape",
+			"stylers": [
+			  { "weight": 5.8 },
+			  { "saturation": 22 },
+			  { "color": "#efebd6" }
+			]
+		},{
+			"featureType": "poi",
+			"stylers": [
+			  { "saturation": 22 },
+			  { "color": "#efebd6" }
+			]
+		},{
+			"featureType": "transit",
+			"stylers": [
+			{ "weight": 0.1 },
+			{ "color": "#000000" }
+			]
+		},{
+			"featureType": "water",
+			"stylers": [
+			{ "color": "#66ccff" },
+			{ "saturation": -47 }
+			]
+		},{
+			"featureType": "administrative.country",
+			"elementType": "geometry.stroke",
+			"stylers": [
+			  { "color": "#000000" },
+			  { "weight": 1.5 }
+			]
+		},{
+			"featureType": "administrative.province",
+			"elementType": "geometry.stroke",
+			"stylers": [
+			  { "weight": 0.5 },
+			  { "color": "#000000" }
+			]
+		},{
+			"featureType": "administrative.locality",
+			"elementType": "labels",
+			"stylers": [
+			  { "visibility": "off" }
+			]
+		}
+		]
+
+		map.setOptions({styles: styles});
+
+		}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+//websocket shit
+var makeMark = function(resp, lat, lon, rad, memberName, groupName, city, state, link){
+//set color of circle
+var colr = (resp == 'yes') ? '#097054' : '#F00';
+var rsvpOpt = {
+				strokeColor: colr,
+strokeOpacity: 1,
+strokeWeight: 1,
+fillColor: colr,
+				fillOpacity: .5,
+map : map,
+center: new google.maps.LatLng(lat, lon),
+radius: rad
+}
+var rsvpOptI = {
+				strokeColor: colr,
+strokeOpacity: 0,
+strokeWeight: 1,
+fillColor: colr,
+				fillOpacity: 0,
+map : map,
+center: new google.maps.LatLng(lat, lon),
+radius: rad*2
+}
+
+rsvpCirc = new google.maps.Circle(rsvpOpt);
+rsvpInv = new google.maps.Circle(rsvpOptI);
+//setTimeout(rsvpCirc.setMap(null), 1000);
+
+			google.maps.event.addListener(rsvpInv, 'mouseover', (function(rsvpCirc) {
+				return function() {
+					infowindow.setContent('<b>' + groupName + '<br> <span style="color:' + colr + '">' + resp + '</span> </b> <br>' + memberName + '<br>' + city + ', ' + state);
+					//infowindow.setOptions({maxWidth: 150});
+					infowindow.setPosition(rsvpCirc.center);
+					//console.log(infowindow.position);
+					infowindow.open(map);
+				}
+				})(rsvpInv));
+      google.maps.event.addListener(rsvpCirc, 'mouseover', (function(rsvpCirc) {
+				return function() {
+					infowindow.setContent('<b>' + groupName + '<br> <span style="color:' + colr + '">' + resp + '</span> </b> <br>' + memberName + '<br>' + city + ', ' + state);
+					//infowindow.setOptions({maxWidth: 150});
+					infowindow.setPosition(rsvpCirc.center);
+					//console.log(infowindow.position);
+					infowindow.open(map);
+				}
+				})(rsvpInv));
+
+			google.maps.event.addListener(rsvpInv, 'mouseout', function () {infowindow.close()});
+			google.maps.event.addListener(rsvpInv, 'click', function() {window.location = link})
+      google.maps.event.addListener(rsvpCirc, 'mouseout', function () {infowindow.close()});
+			google.maps.event.addListener(rsvpCirc, 'click', function() {window.location = link})
+
+
+};
+var times = [];
+  var olddata;
+var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
+//ws.onmessage() = function(msg){makeMark(msg.data);};
+	ws.onmessage = function(msg){
+      olddata = stateData;
+			//var results = document.getElementById('results');
+			var rsvp = JSON.parse(msg.data);
+			var link = rsvp.event['event_url'];
+			var name = rsvp.member['member_name'];
+			var group = rsvp.group['group_name'];
+			var city = rsvp.group['group_city'];
+			var state = rsvp.group['group_state'];
+      var country = rsvp.group['group_country'];
+			var lat = rsvp.group['group_lat'];
+			var lon = rsvp.group['group_lon'];
+			var resp = rsvp['response'];
+			var rad = 50000;
+			var rp = (resp == 'yes') ? 'will' : "won't";
+      var d = new Date(rsvp.event['time']);
+      var day = d.getDay();
+      var hour = d.getHours();
+      console.log(country.toUpperCase())
+      if (country.toUpperCase() == 'US'){
+        update(day, hour);
+        times.push(rsvp);
+        stdata = {};
+        var oldDat = stateData.filter(function(d) { return d.state == state});
+        var ind = stateData.findIndex(function(d){return d.state === state});
+        (oldDat.length === 0) ? stateData.push({'state': state, 'count':1}) : stateData[ind].count += 1;
+        //(resp == 'yes') ? yes += 1 : no += 1;
+        update1();
+        //document.getElementById('yes').innerHTML = yes.toString();
+        //document.getElementById('no').innerHTML = no.toString();
+      }
+//results.appendChild(document.createTextNode(" * " + name + " " + rp + " meetup with " + group + " in " + city + ', ' + state));
+//results.appendChild(document.createElement('br'));
+      if (d.getDay() >= 0 && count > 0) {
+				(resp == 'yes') ? daycount[d.getDay()].yes += 1 : daycount[d.getDay()].no += 1;
+				daycount.forEach(function(d,i){perdaycount[i].yes = d.yes/count; perdaycount[i].no = d.no/count;});
+				makeBars(perdaycount);
+			}
+makeMark(resp, lat, lon, rad, name, group, city, state, link);
+};
+
+
+
+</script>
+</head>
+<body>
+  <div style='height:50%;'>
+    <div id="map-canvas"></div>
+    <div>
+      <div id='title'>Meetup Dashboard</div>
+      <br>
+      <div id="week"></div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div style='height:50%'>
+    <div id="bar"> </div> <div id="donut"> </div>
+  </div>
+<br/>
+<script>
+
+  //Time Heat Map
+var samp =[{'day':'Sunday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0,   8:0,   9:0,
+                           10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0, 18:0, 19:0,
+                           20:0, 21:0, 22:0, 23:0},
+           {'day':'Monday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0,   8:0,   9:0,
+                           10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0, 18:0, 19:0,
+                           20:0, 21:0, 22:0, 23:0},
+           {'day':'Tuesday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0,   8:0,   9:0,
+                           10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0, 18:0, 19:0,
+                           20:0, 21:0, 22:0, 23:0},
+           {'day':'Wednesday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0,   8:0,   9:0,
+                           10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0, 18:0, 19:0,
+                           20:0, 21:0, 22:0, 23:0},
+           {'day':'Thursday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0,   8:0,   9:0,
+                           10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0, 18:0, 19:0,
+                           20:0, 21:0, 22:0, 23:0},
+           {'day':'Friday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0,   8:0,   9:0,
+                           10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0, 18:0, 19:0,
+                           20:0, 21:0, 22:0, 23:0},
+           {'day':'Saturday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0,   8:0,   9:0,
+                           10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0, 18:0, 19:0,
+                           20:0, 21:0, 22:0, 23:0},];
+var colorrev = ['green', 'red'];
+var colors = ['#0c2c84', '#225ea8', '#1d91c0', '#41b6c4',
+                '#7fcdbb', '#c7eab4', '#ffffcc'];
+
+var colors2 = ['#0c2c84', '#225ea8', '#1d91c0', '#41b6c4',
+                '#7fcdbb', '#c7eab4', '#ffffcc', '#fed976',
+                '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#b10026'];
+var colors3 = d3.scale.category20();
+  colors = colors.reverse();
+  colors2 = colors2.reverse();
+var count = 1;
+
+var f = d3.scale.quantize().domain([0, count]).range(colors);
+
+var svg0 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Sunday');
+var svg1 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Monday');
+var svg2 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Tuesday');
+var svg3 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Wednesday');
+var svg4 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Thursday');
+var svg5 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Friday');
+var svg6 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Saturday');
+
+rerender = function(){
+  nums=[];
+  d3.range(7).map(function(n){
+    Object.keys(samp[n]).map(function(d){
+      (d != 'day') ? nums.push(samp[n][d]) : nums.push(0)
+    });
+  });
+  mx = Math.max.apply(null, nums);
+  f = d3.scale.quantize().domain([0, mx]).range(colors);
+  [svg0, svg1, svg2, svg3, svg4, svg5, svg6].forEach(function(d){
+    d.selectAll('.rect').remove(); d.selectAll('.text').remove();
+  });
+  [svg0, svg1, svg2, svg3, svg4, svg5, svg6].forEach(function(c, i){
+    d3.range(24).forEach(function(d, j){
+    c.append('rect').attr('height', 10).attr('width', 10).attr('x', (d%4)*12)
+      .attr('y', Math.floor(d/4)*12+20).attr('fill', f(samp[i][j])).attr('class', 'rect');
+
+    });
+    c.append('text').attr('x', 25).attr('y', 15).attr('text-anchor', 'middle')
+      .attr('font-family', 'sans-serif').text(samp[i].day.slice(0,3)).attr('class', 'text');
+  });
+  count += 1;
+}
+
+var update = function(day, time){
+  samp[day][time] += 1;
+  rerender();
+}
+
+//Bar Chart
+var count = 0;
+
+			daycount = [{'day':'Sunday', 'yes':0, 'no':0},
+				{'day':'Monday', 'yes':0, 'no':0},
+				{'day':'Tuesday', 'yes':0, 'no':0},
+				{'day':'Wednesday', 'yes':0, 'no':0},
+				{'day':'Thursday', 'yes':0, 'no':0},
+				{'day':'Friday', 'yes':0, 'no':0},
+				{'day':'Saturday', 'yes':0, 'no':0}
+			];
+			perdaycount = [{'day':'Sunday', 'yes':0, 'no':0},
+				{'day':'Monday', 'yes':0, 'no':0},
+				{'day':'Tuesday', 'yes':0, 'no':0},
+				{'day':'Wednesday', 'yes':0, 'no':0},
+				{'day':'Thursday', 'yes':0, 'no':0},
+				{'day':'Friday', 'yes':0, 'no':0},
+				{'day':'Saturday', 'yes':0, 'no':0}
+			];
+
+  var svgBar = d3.select('#bar').append('svg').attr('class', 'axis').attr('height', 250).attr('width', 500);
+
+  function makeBars(data1/*, olddata1*/){
+					  if(count > 0){
+
+							key = ["yes", "no"]
+							//console.log(data1);
+							data1.forEach(function(d){
+								//console.log(d);
+								d.resp = key.map(function(name) { return {name: name, value: +d[name]}; });
+							});
+							svgBar.selectAll("g").remove();
+							svgBar.selectAll('.day').remove();
+							var x = d3.scale.ordinal().rangeRoundBands([0, 400], .1);
+							var y = d3.scale.linear().domain([0,1]).range([225, 10]);
+
+							var x1 = d3.scale.ordinal();
+
+							var yAxis = d3.svg.axis().scale(y).innerTickSize(-400).orient('left').ticks(10, '%');
+							var xAxis = d3.svg.axis().scale(x).orient('bottom');
+
+							x.domain(data1.map(function(d){return d.day}));
+							y.domain([0, 1]);
+
+  						x1.domain(key).rangeRoundBands([0, x.rangeBand()]);
+
+							//console.log(data1);
+
+							var day = svgBar.selectAll(".day")
+									.data(data1)
+									.enter().append("g")
+									.attr("class", "day")
+									.attr("transform", function(d) { var adj = x(d.day)+100; return "translate(" + adj +",0)"; });
+
+							day.selectAll("rect")
+      					.data(function(d) { return d.resp; })
+    						.enter().append("rect")
+      					.attr("width", x1.rangeBand())
+      					.attr("x", function(d) { return x1(d.name); })
+      					.attr("y", function(d) { return y(d.value); })
+								.style("fill", function(d, i) { return colorrev[i]; })
+							  .transition()
+                .duration(100)
+      					.attr("height", function(d) { return 225-y(d.value); });
+
+
+
+							svgBar.append('g')
+									.attr('class', 'x axis')
+									.attr('transform', 'translate(100,225)')
+									.call(xAxis);
+
+							svgBar.append('g')
+									.attr('class', 'y axis')
+									.attr('transform', 'translate(100,0)')
+									.call(yAxis)
+								.append("text")
+									.attr('fill', 'white')
+      						.attr("transform", "rotate(-90)")
+      						.attr("y", 6)
+      						.attr("dy", ".71em")
+      						.style("text-anchor", "middle");
+
+							//http://bl.ocks.org/mbostock/3885304
+							//http://bl.ocks.org/mbostock/3887051
+
+						}
+				}
+  var stateData = [];
+  var height = 200;
+  var width = 200;
+          var svgDonut = d3.select("#donut").append("svg")
+                .attr("class", "pie")
+                .attr("height", height)
+                .attr("width", width);
+          function render1(innerRadius) {
+
+            var pie = d3.layout.pie().sort(null);
+
+            //data = rand(10);
+			data = [no, yes]
+
+            var arc = d3.svg.arc().outerRadius(100).innerRadius(innerRadius);
+
+            svgDonut.select("g").remove();
+
+            svgDonut.append("g")
+                .attr("transform", "translate(100,100)")
+                .selectAll("path.arc")
+                    .data(pie(stateData.map(function(d){return d.count})))
+                .enter()
+                    .append("path")
+                    .attr("class", "arc")
+                    .attr("fill", function (d,i) {
+                        return colors3(i);
+                    })
+                    .on("mouseover", function (d) {
+                        pastColor = d3.select(this).attr("fill");
+                        //alert(lighten(pastColor));
+                        d3.select(this).attr("fill", lighten(pastColor));
+                        //d3.select(this).enter().append("text").text("hello").attr("x", 100).attr("y", 100).attr("color", "black");
+                    })
+                    .on("mouseout", function(d) {
+                        d3.select(this).attr("fill", pastColor);
+                    })
+            //.attr("d", function(d, i){
+            //            return arc(d, i);
+            //});
+                    .transition().duration(1000)
+                    .attrTween("d", function (d) {
+                        var start = {startAngle: 0, endAngle: 0};
+                        var interpolate = d3.interpolate(start, d);
+                        return function (t) {
+                            return arc(interpolate(t));
+                        };
+                    });
+                    //.attrTween("d", tweenDonut);
+        }
+
+        var lighten = function (clr) {
+            clr = clr.split('#')[1];
+            var r = parseInt(clr.split(/([a-z0-9]{2})/)[1], 16);
+            var g = parseInt(clr.split(/([a-z0-9]{2})/)[3], 16);
+            var b = parseInt(clr.split(/([a-z0-9]{2})/)[5], 16);
+
+            //convert to hsl
+            var hsl = rgbToHsl(r, g, b);
+
+            //alert(hsl);
+
+            //lighten
+            hsl[2] = hsl[2]*1.1;
+
+            if (hsl[2] > 1) { hsl[2] = .9};
+            if (hsl[2] < 0) { hsl[2] = .1};
+
+            //convert back to rgb
+            var rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
+
+            rgb.forEach( function (d, i) { rgb[i] = (parseInt(d)).toString(16)});
+
+             //alert("r = " + rgb[0] + " g = " + rgb[1] + " b = " + rgb[3]);
+
+            //assemble new color
+            r = ((rgb[0]).toString(16).length < 2) ? "0" + (rgb[0]).toString(16) : (rgb[0]).toString(16);
+            g = ((rgb[1]).toString(16).length < 2) ? "0" + (rgb[1]).toString(16) : (rgb[1]).toString(16);
+            b = ((rgb[2]).toString(16).length < 2) ? "0" + (rgb[2]).toString(16) : (rgb[2]).toString(16);
+
+            //alert("r = " + r + " g = " + g + " b = " + b);
+
+            return("#"+r+g+b);
+
+        }
+
+        function rgbToHsl(r, g, b){
+            r /= 255, g /= 255, b /= 255;
+            var max = Math.max(r, g, b), min = Math.min(r, g, b);
+            var h, s, l = (max + min) / 2;
+
+            if(max == min){
+                h = s = 0; // achromatic
+            }else{
+                var d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch(max){
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+
+            return [h, s, l];
+        }
+
+        function hslToRgb(h, s, l){
+            var r, g, b;
+
+            if(s == 0){
+                r = g = b = l; // achromatic
+            }else{
+                function hue2rgb(p, q, t){
+                    if(t < 0) t += 1;
+                    if(t > 1) t -= 1;
+                    if(t < 1/6) return p + (q - p) * 6 * t;
+                    if(t < 1/2) return q;
+                    if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                }
+
+                var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                var p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+
+            return [r * 255, g * 255, b * 255];
+        }
+
+        function tweenDonut(b) {
+          b.innerRadius = radius * .6;
+          var i = d3.interpolate({innerRadius: 0}, b);
+          return function(t) { return arc(i(t)); };
+        }
+
+        var rand = function (n) {
+            var num = [];
+            for (var i = 0; i < n; i++) {
+                num[i] = Math.random()*100
+            };
+            return num;
+        }
+
+        var update1 = function () {
+            //olddata = stateData;
+						olddaycount = perdaycount;
+            //data = rand(10);
+						//data = [no, yes];
+            rerender1(50);
+						//if(count >0) {makeBars(perdaycount, olddaycount)};
+        }
+
+        function rerender1(innerRadius) {
+
+            var pie = d3.layout.pie().sort(null);
+
+            var arc = d3.svg.arc().outerRadius(100).innerRadius(innerRadius);
+
+            svgDonut.select("g").remove();
+
+            svgDonut.append("g")
+                .attr("transform", "translate(100,100)")
+                .selectAll("path.arc")
+                    .data(pie(stateData.map(function(d){return d.count})))
+                .enter()
+                    .append("path")
+                    .attr("class", "arc")
+                    .attr("fill", function (d,i) {
+                        return colors3(i);
+                    })
+                    .transition().duration(1000)
+                    .attrTween("d", function (d, i) {
+                        var interpolate = d3.interpolate(pie(olddata.map(function(d){return d.count}))[i], d);
+                        return function (t) {
+                            return arc(interpolate(t));
+                        };
+                    });
+                    //.attrTween("d", tweenDonut);
+        }
+
+        render1(50);
+</script>
+<div id="footer"> &nbsp; &nbsp; under MIT license <div>
+</body>
+
+</html>
