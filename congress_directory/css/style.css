@@ -55,8 +55,8 @@ ol, ul {
 .artistlist li:hover {
   /*background: #FDF6E3;*/
   opacity: 1;
-  -webkit-transform: background: #FDF6E3;
-  -moz-transform: background: #FDF6e3;
-  -ms-transform: background: #fdf6e3;
-  transform: background: #fdf6e3;
+  -webkit-transform: background-color: #FDF6E3;
+  -moz-transform: background-color: #FDF6e3;
+  -ms-transform: background-color: #fdf6e3;
+  transform: background-color: #fdf6e3;
 }
