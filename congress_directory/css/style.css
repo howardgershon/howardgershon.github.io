@@ -67,7 +67,7 @@ ol, ul {
   transition: 1s;
 }
 
-.artistlist:hover  a {
+.artistlist:hover > a {
   color: white;
   -webkit-transition: .5s;
   -moz-transition: .5s;
