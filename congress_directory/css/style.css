@@ -60,12 +60,13 @@ ol, ul {
 .artistlist li:hover {
   background: #Ff8444;
   opacity: 1;
+  color: white;
   -webkit-transition: 1s;
   -moz-transition: 1s;
   -ms-transition: 1s;
   transition: 1s;
 }
-
+/*
 .artistlist:hover + a {
   color: white;
   -webkit-transition: .5s;
@@ -73,3 +74,4 @@ ol, ul {
   -ms-transition: .5s;
   transition: .5s;
 }
+*/
