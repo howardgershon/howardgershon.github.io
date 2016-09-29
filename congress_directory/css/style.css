@@ -66,12 +66,11 @@ ol, ul {
   -ms-transition: 1s;
   transition: 1s;
 }
-/*
-.artistlist:hover + a {
+
+.artistlist:hover  a {
   color: white;
   -webkit-transition: .5s;
   -moz-transition: .5s;
   -ms-transition: .5s;
   transition: .5s;
 }
-*/
