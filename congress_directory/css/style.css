@@ -1,0 +1,62 @@
+img {
+  float: left;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+body {
+  font-family: 'Muli', sans-serif;
+}
+
+.name {
+  color: #036;
+}
+
+.infoplate {
+  background-color: #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  min-height: 150px;
+}
+
+h5 {
+  margin-left: 50px;
+}
+
+.inv {
+  display:none;
+}
+
+a.boxes{
+  border: solid black 1px;
+  background-color: black;
+  color: #ccc;
+  padding: 2px;
+}
+
+a {
+  padding: 2px;
+}
+
+ol, ul {
+  list-style: none; }
+
+.artistlist li {
+  margin: 0;
+  padding: 10px 10px 0 10px;
+  border-bottom: 1px dotted black;
+  opacity: .9;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+.artistlist li:hover {
+  background: #FDF6E3;
+  opacity: 1;
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+}

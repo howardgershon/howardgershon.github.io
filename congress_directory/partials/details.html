@@ -1,0 +1,12 @@
+<section class="artistinfo">
+  <img ng-src="https://www.govtrack.us/data/photos/{{artists[whichItem].pic_sname}}.jpeg" alt="Photo of {{artists[whichItem].full_name}}" height='100px'>
+  <div class="infoplate">
+    <h1 class="name">{{artists[whichItem].full_name}}</h1>
+    <a class='boxes' onclick='$("p").addClass("inv"); $("#contact").removeClass("inv");'>Contact Info</a> <a class='boxes' onclick='$("p").removeClass("inv"); $("#contact").addClass("inv");'>Biography</a>
+    <p> <br> {{artists[whichItem].bio}} </p>
+    <div class='inv' id='contact'> <br> <br>
+      {{artists[whichItem].address}} <br> <br>
+      {{artists[whichItem].phone}}
+    </div>
+  </div>
+</section>

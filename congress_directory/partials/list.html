@@ -1,0 +1,35 @@
+<section class="artistpage">
+  <div class="search">
+    <h1>Legislator Directory</h1>
+    <label>search: </label>
+    <input ng-model="query" placeholder="Search for legislators" autofocus>
+
+    <label class="formgroup">by:
+      <select ng-model="artistOrder">
+        <option value="full_name">Name</option>
+        <option value="type">Type</option>
+      </select>
+    </label>
+
+    <label class="formgroup">
+      <input type="radio" ng-model="direction" name="direction" checked>
+      ascending
+     </label>
+    <label class="formgroup">
+      <input type="radio" ng-model="direction" name="direction" value="reverse">
+      descending
+    </label>
+
+  </div>
+<ul class="artistlist" ng-show="query">
+  <li ng-animate="'animate'" class="artist cf" ng-repeat="item in artists | filter: query | orderBy: artistOrder:direction">
+    <a href="#/details/{{artists.indexOf(item)}}">
+      <img ng-src="https://www.govtrack.us/data/photos/{{item.pic_sname}}.jpeg" alt="Photo of {{item.full_name}}" height='100px'>
+      <div class="info">
+        <h2>{{item.full_name}}</h2>
+        <h3>{{item.type}}</h3>
+      </div>
+    </a>
+  </li>
+</ul>
+</section>
