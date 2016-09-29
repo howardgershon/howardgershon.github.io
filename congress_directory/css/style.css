@@ -55,8 +55,8 @@ ol, ul {
 .artistlist li:hover {
   background: #Ff8444;
   opacity: 1;
-  -webkit-transition-delay: 1s;
-  -moz-transition-delay: 1s;
-  -ms-transition-delay: 1s;
-  transition-delay: 1s;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  transition: 1s;
 }
