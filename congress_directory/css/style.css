@@ -36,6 +36,11 @@ a.boxes{
 
 a {
   padding: 2px;
+  text-decoration: none;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 ol, ul {
@@ -55,6 +60,14 @@ ol, ul {
 .artistlist li:hover {
   background: #Ff8444;
   opacity: 1;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  transition: 1s;
+}
+
+.artistlist a:hover {
+  color: white;
   -webkit-transition: 1s;
   -moz-transition: 1s;
   -ms-transition: 1s;
