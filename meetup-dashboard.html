@@ -717,7 +717,8 @@ var count = 0;
                         return function (t) {
                             return arc(interpolate(t));
                         };
-                    });
+                    })
+                    .transition().attr('pointer-events', '');
                     //.attrTween("d", tweenDonut);
 
                   seg.append("text").attr("transform", function(d) {
