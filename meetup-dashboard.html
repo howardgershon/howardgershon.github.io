@@ -7,7 +7,7 @@
 <meta property="og:image" content='./meetupmap.png'>
 <style type="text/css">
 html { height: 100% }
-body { height: 100%; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; font-weight: 100; font-size: 40pt; }
+body { height: 100%; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; font-weight: 100; font-size: 40pt; background-color: #ccc; color: black;}
   #map-canvas { height: 100%; width: 45%; float:left; margin: 50px; display: inline-block; position: abosolute;}
   #results {height:78%; width: 20%; float:left; font-family: sans-serif; font-size: 10pt; padding:5pt; overflow:scroll;}
   #list {background-color: #F3EFE0;}
@@ -19,7 +19,7 @@ body { height: 100%; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; f
   #yes{color:green; display: inline}
   #no{color:red; display: inline}
   #title{font-size:40pt; font-family: Product Sans; font-weight: 100; margin: 50px; display: inline-block;}
-  #week{font-size: 10pt; margin: 50px; width: 35%; display: inline-block;}
+  #week{font-size: 10pt; margin-left: 100px; width: 35%; display: inline-block;}
   #bar{float:left; display: inline-block;}
   #donut{display: inline-block; margin-left: 50px;}
 .invisible {
@@ -29,9 +29,9 @@ display: none;
 	.axis text {
 		z-index: 0;
 		color: #000;
-  	font-family:'Roboto', sans-serif;
-		font-weight: 100;
-		font-size: 10px;
+  	font-family: Product Sans;
+		font-weight: 200;
+		font-size: 12px;
 	}
 
 		.bar {
@@ -229,7 +229,7 @@ var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
       var d = new Date(rsvp.event['time']);
       var day = d.getDay();
       var hour = d.getHours();
-      console.log(country.toUpperCase())
+      //console.log(country.toUpperCase())
       if (country.toUpperCase() == 'US'){
         update(day, hour);
         times.push(rsvp);
@@ -262,17 +262,18 @@ makeMark(resp, lat, lon, rad, name, group, city, state, link);
     <div>
       <div id='title'>Meetup Dashboard</div>
       <br>
-      <div id="week"></div>
+      <!--<div id="week"></div>-->
+      <div id="donut"> </div>
     </div>
   </div>
   <br>
   <br>
   <div style='height:50%'>
-    <div id="bar"> </div> <div id="donut"> </div>
+    <div id="bar"> </div> <div id="week"></div> <!--<div id="donut"> </div> -->
   </div>
 <br/>
 <script>
-
+  var height = window.innerWidth*.3;
   //Time Heat Map
 var samp =[{'day':'Sunday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0,   8:0,   9:0,
                            10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0, 18:0, 19:0,
@@ -297,7 +298,7 @@ var samp =[{'day':'Sunday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0
                            20:0, 21:0, 22:0, 23:0},];
 var colorrev = ['green', 'red'];
 var colors = ['#0c2c84', '#225ea8', '#1d91c0', '#41b6c4',
-                '#7fcdbb', '#c7eab4', '#ffffcc'];
+                '#7fcdbb', '#c7eab4', '#ffff88'];
 
 var colors2 = ['#0c2c84', '#225ea8', '#1d91c0', '#41b6c4',
                 '#7fcdbb', '#c7eab4', '#ffffcc', '#fed976',
@@ -309,13 +310,19 @@ var count = 1;
 
 var f = d3.scale.quantize().domain([0, count]).range(colors);
 
-var svg0 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Sunday');
-var svg1 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Monday');
-var svg2 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Tuesday');
-var svg3 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Wednesday');
-var svg4 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Thursday');
-var svg5 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Friday');
-var svg6 = d3.select('#week').append('svg').attr('height', 100).attr('width',50).attr('id', 'Saturday');
+var bht = 25;
+//var wd = 24*bht+20;
+var winWidth = window.innerWidth;
+var wd = 0.5*winWidth;
+var bht = (wd-50)/24;
+
+var svg0 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Sunday');
+var svg1 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Monday');
+var svg2 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Tuesday');
+var svg3 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Wednesday');
+var svg4 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Thursday');
+var svg5 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Friday');
+var svg6 = d3.select('#week').append('svg').attr('height', bht + 50).attr('width', wd).attr('id', 'Saturday');
 
 rerender = function(){
   nums=[];
@@ -325,19 +332,27 @@ rerender = function(){
     });
   });
   mx = Math.max.apply(null, nums);
-  f = d3.scale.quantize().domain([0, mx]).range(colors);
+  //console.log(mx);
+  f = d3.scale.quantize().domain([0, Math.max(mx, 25)]).range(colors);
   [svg0, svg1, svg2, svg3, svg4, svg5, svg6].forEach(function(d){
     d.selectAll('.rect').remove(); d.selectAll('.text').remove();
   });
   [svg0, svg1, svg2, svg3, svg4, svg5, svg6].forEach(function(c, i){
     d3.range(24).forEach(function(d, j){
-    c.append('rect').attr('height', 10).attr('width', 10).attr('x', (d%4)*12)
-      .attr('y', Math.floor(d/4)*12+20).attr('fill', f(samp[i][j])).attr('class', 'rect');
+    c.append('rect').attr('height', bht*(5/6)).attr('width', bht*(5/6)).attr('y', 0)
+      .attr('x', d*(bht)+50).attr('fill', (samp[i][j] == 0) ? '#ffffcc' : f(samp[i][j])).attr('class', 'rect');
 
     });
-    c.append('text').attr('x', 25).attr('y', 15).attr('text-anchor', 'middle')
-      .attr('font-family', 'sans-serif').text(samp[i].day.slice(0,3)).attr('class', 'text');
+    c.append('text').attr('x', 20).attr('y', 15).attr('text-anchor', 'middle')
+      .attr('font-family', 'Product Sans').text(samp[i].day.slice(0,3)).attr('class', 'text');
+    //console.log(i);
+    if (i == 6){
+      c.selectAll('text.tick').data(d3.range(24)).enter().append('text').attr('x', function(d){return d*bht+50+.5*bht})
+        .attr('y', bht+10).attr('text-anchor', 'middle')
+        .attr('font-family', 'Product Sans').text(function(d){return d%12+1}).attr('class', 'tick');
+    }
   });
+
   count += 1;
 }
 
@@ -435,8 +450,8 @@ var count = 0;
 						}
 				}
   var stateData = [];
-  var height = 200;
-  var width = 200;
+  var height = window.innerHeight*.3;
+  var width = height;
           var svgDonut = d3.select("#donut").append("svg")
                 .attr("class", "pie")
                 .attr("height", height)
@@ -448,16 +463,17 @@ var count = 0;
             //data = rand(10);
 			data = [no, yes]
 
-            var arc = d3.svg.arc().outerRadius(100).innerRadius(innerRadius);
+            var arc = d3.svg.arc().outerRadius(height/2).innerRadius(innerRadius);
 
             svgDonut.select("g").remove();
 
-            svgDonut.append("g")
+            var seg = svgDonut.append("g")
                 .attr("transform", "translate(100,100)")
                 .selectAll("path.arc")
                     .data(pie(stateData.map(function(d){return d.count})))
-                .enter()
-                    .append("path")
+                .enter();
+
+            seg.append("path")
                     .attr("class", "arc")
                     .attr("fill", function (d,i) {
                         return colors3(i);
@@ -483,6 +499,32 @@ var count = 0;
                         };
                     });
                     //.attrTween("d", tweenDonut);
+            seg.append("text").attr("transform", function(d) {
+                        var pos = arc.centroid(d);
+                        var x = pos[0];
+                        var y = pos[1];
+                        return "translate(" + arc.centroid(d) + ")";
+                    })
+                    .style("fill", "white")
+										.attr('fill-opacity', 0)
+                    .style("text-anchor", "middle")
+                    .text(function(d, i) {
+												//var dats = Math.floor(data[i]);
+												//if (dats == 0 ) return null;
+                        return Math.floor(stateData[i].state);
+                    })
+										.transition().duration(1000).attr("fill-opacity", 1)
+                    .transition().duration(1000)
+                    .attrTween("transform", function(d, i) {
+											  var start = {
+                            startAngle: 0,
+                            endAngle: 0
+                        };
+                        var interpolate = d3.interpolate(start, d);
+                        return function(t) {
+                            return "translate(" + arc.centroid(interpolate(t)) + ")";
+                        };
+                    });
         }
 
         var lighten = function (clr) {
@@ -585,7 +627,7 @@ var count = 0;
 						olddaycount = perdaycount;
             //data = rand(10);
 						//data = [no, yes];
-            rerender1(50);
+            rerender1(height/4);
 						//if(count >0) {makeBars(perdaycount, olddaycount)};
         }
 
@@ -593,16 +635,17 @@ var count = 0;
 
             var pie = d3.layout.pie().sort(null);
 
-            var arc = d3.svg.arc().outerRadius(100).innerRadius(innerRadius);
+            var arc = d3.svg.arc().outerRadius(height/2).innerRadius(innerRadius);
 
             svgDonut.select("g").remove();
 
-            svgDonut.append("g")
-                .attr("transform", "translate(100,100)")
+            var seg = svgDonut.append("g")
+                .attr("transform", "translate("+ height/2 +","+height/2+")")
                 .selectAll("path.arc")
                     .data(pie(stateData.map(function(d){return d.count})))
-                .enter()
-                    .append("path")
+                .enter();
+
+            seg.append("path")
                     .attr("class", "arc")
                     .attr("fill", function (d,i) {
                         return colors3(i);
@@ -615,9 +658,40 @@ var count = 0;
                         };
                     });
                     //.attrTween("d", tweenDonut);
+
+                  seg.append("text").attr("transform", function(d) {
+                        var pos = arc.centroid(d);
+                        var x = pos[0];
+                        var y = pos[1];
+                        return "translate(" + arc.centroid(d) + ")";
+                    })
+                    .style("fill", "white")
+										.attr('fill-opacity', 1)
+                    .style('font-family', 'Product Sans')
+                    .style('font-size', '10pt')
+                    .style("text-anchor", "middle")
+                    .text(function(d, i) {
+												//var dats = Math.floor(data[i]);
+												//if (dats == 0 ) return null;
+                        return stateData[i].state;
+                    });
+										//.transition().duration(1000).attr("fill-opacity", 1);
+                    //.transition().duration(1000);
+                    //.attrTween("transform", function(d, i) {
+										//	  var start = {
+                    //        startAngle: 0,
+                    //        endAngle: 0
+                    //    };
+                    //    var interpolate = d3.interpolate(start, d);
+                    //    return function(t) {
+                    //        return "translate(" + arc.centroid(interpolate(t)) + ")";
+                    //    };
+                    //});
         }
 
-        render1(50);
+
+
+        render1(height/4);
 </script>
 <div id="footer"> &nbsp; &nbsp; under MIT license <div>
 </body>
