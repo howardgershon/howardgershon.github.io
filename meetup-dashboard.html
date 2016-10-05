@@ -550,11 +550,12 @@ var count = 0;
           				.datum(data)
           				.attr("x", 0 )
           				.attr("y", 0 + radius/10 )
+                  .attr("transform", "translate("+radius+","+radius+")")
           				.attr("class", "text-tooltip")
           				.style("text-anchor", "middle")
           				.attr("font-weight", "bold")
           				.style("font-size", "8px")
-                  .text("Hover Over a <br> Slice");
+                  .text("Hover Over a "+<br>+" Slice");
 
         }
 
