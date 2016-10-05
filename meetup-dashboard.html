@@ -342,6 +342,7 @@ rerender = function(){
   mx = Math.max.apply(null, nums);
   //console.log(mx);
   f = d3.scale.quantize().domain([0, Math.max(mx, 25)]).range(colors);
+  var mm = d3.min(f.invertExtent('#1d91c0'))
   [svg0, svg1, svg2, svg3, svg4, svg5, svg6].forEach(function(d){
     d.selectAll('.rect').remove(); d.selectAll('.text').remove();
   });
@@ -349,7 +350,7 @@ rerender = function(){
     d3.range(24).forEach(function(d, j){
     c.append('rect').attr('height', bht*(5/6)).attr('width', bht*(5/6)).attr('y', 0)
       .attr('x', d*(bht)+50).attr('fill', (samp[i][j] == 0) ? '#ffffff' : f(samp[i][j])).attr('class', 'rect')
-      .on('mouseenter', function(){c.append('text').attr('class', 'wtool').attr('x', d*bht+50+.5*bht-2.5).attr('y', .5*bht+2.5).style('font-family', 'Product Sans').style('font-size', '10pt').attr('fill', 'black').attr('text-anchor', 'middle').text(function(){if(samp[i][j] > 0){return samp[i][j]}})})
+      .on('mouseenter', function(){c.append('text').attr('class', 'wtool').attr('x', d*bht+50+.5*bht-2.5).attr('y', .5*bht+2.5).style('font-family', 'Product Sans').style('font-size', '10pt').attr('fill', (samp[i][j] > mm)?'white':'black').attr('text-anchor', 'middle').text(function(){if(samp[i][j] > 0){return samp[i][j]}})})
       .on('mouseleave', function(){d3.selectAll('.wtool').remove()});
     });
     c.append('text').attr('x', 20).attr('y', 15).attr('text-anchor', 'middle')
