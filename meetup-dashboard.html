@@ -18,7 +18,7 @@ body { height: 100%; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; f
   #res{font-family:'Roboto', sans-serif; font-size: 35pt; float:left; margin-left: 5%;}
   #yes{color:green; display: inline}
   #no{color:red; display: inline}
-  #title{font-size:40pt; font-family: Product Sans; font-weight: 100; margin: 50px; display: inline-block;}
+  #title{font-size:60pt; font-family: Product Sans; font-weight: 100; margin: 50px; display: inline-block;}
   #week{font-size: 10pt; margin-left: 100px; width: 35%; display: inline-block;}
   #bar{float:left; display: inline-block;}
   #donut{display: inline-block; margin-left: 50px;}
@@ -315,7 +315,7 @@ var colors3 = d3.scale.category20();
 var count = 1;
 
 var f = d3.scale.quantize().domain([0, count]).range(colors);
-
+var pastColor;
 var bht = 25;
 //var wd = 24*bht+20;
 var winWidth = window.innerWidth;
@@ -347,8 +347,9 @@ rerender = function(){
   [svg0, svg1, svg2, svg3, svg4, svg5, svg6].forEach(function(c, i){
     d3.range(24).forEach(function(d, j){
     c.append('rect').attr('height', bht*(5/6)).attr('width', bht*(5/6)).attr('y', 0)
-      .attr('x', d*(bht)+50).attr('fill', (samp[i][j] == 0) ? '#ffffff' : f(samp[i][j])).attr('class', 'rect');
-
+      .attr('x', d*(bht)+50).attr('fill', (samp[i][j] == 0) ? '#ffffff' : f(samp[i][j])).attr('class', 'rect')
+      .on('mouseenter', function(){c.append('text').attr('class', 'wtool').attr('x', d*bht+50+.5*bht-2.5).attr('y', .5*bht+2.5).style('font-family', 'Product Sans').style('font-size', '10pt').attr('fill', 'black').attr('text-anchor', 'middle').text(samp[i][j])})
+      .on('mouseleave', function(){d3.selectAll('.wtool').remove()});
     });
     c.append('text').attr('x', 20).attr('y', 15).attr('text-anchor', 'middle')
       .attr('font-family', 'Product Sans').text(samp[i].day.slice(0,3)).attr('class', 'text');
@@ -552,7 +553,7 @@ var count = 0;
           				.attr("class", "text-tooltip")
           				.style("text-anchor", "middle")
           				.attr("font-weight", "bold")
-          				.style("font-size", radius/2.5+"px");
+          				.style("font-size", radius/4+"px");
 
         }
 
@@ -685,17 +686,20 @@ var count = 0;
                         //alert(lighten(pastColor));
                         d3.select(this).attr("fill", lighten(pastColor));
                         var st = d3.select(this).attr('id');
+                        var ct = d.data;
+                        console.log(d);
 												//console.log(d)
 												svgDonut.select("text.text-tooltip")
 												  .attr("transform", "translate("+radius+","+radius+")")
-        									.attr("fill", function(d, i) { return colors3(i); /*return 'black'*/ })
+        									.attr("fill", function(d, i) { return pastColor; /*return colors3(i);*/ /*return 'black'*/ })
+                          .attr('stroke', 'black')
         									.text(function(d, i){
 														//var sum = data.reduce(function(a, b){return a+b;});
 														//var perc = Math.trunc(d.data/sum*100);
           									//return perc+"%";
-                            console.log(st);
+                            //console.log(st);
                             //stateData[i].state;
-                            return st;
+                            return st + " : " + ct;
        	 									});
                         //d3.select(this).append("text").text("hello").attr("x", 100).attr("y", 100).attr("color", "black");
                     })
