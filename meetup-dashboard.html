@@ -227,8 +227,8 @@ var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
 			var rad = 50000;
 			var rp = (resp == 'yes') ? 'will' : "won't";
       var dd = new Date(rsvp.event['time']);
-      var day = d.getDay();
-      var hour = d.getHours();
+      var day = dd.getDay();
+      var hour = dd.getHours();
       //console.log(country.toUpperCase())
       if (country.toUpperCase() == 'US'){
         update(day, hour);
