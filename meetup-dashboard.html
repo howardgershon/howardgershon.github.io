@@ -553,7 +553,8 @@ var count = 0;
           				.attr("class", "text-tooltip")
           				.style("text-anchor", "middle")
           				.attr("font-weight", "bold")
-          				.style("font-size", radius/4+"px");
+          				.style("font-size", "8px")
+                  .text("Hover Over a <br> Slice");
 
         }
 
@@ -693,6 +694,7 @@ var count = 0;
 												  .attr("transform", "translate("+radius+","+radius+")")
         									.attr("fill", function(d, i) { return pastColor; /*return colors3(i);*/ /*return 'black'*/ })
                           .attr('stroke', 'black')
+                          .style("font-size", radius/4+"px")
         									.text(function(d, i){
 														//var sum = data.reduce(function(a, b){return a+b;});
 														//var perc = Math.trunc(d.data/sum*100);
