@@ -241,7 +241,7 @@ var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
         update1();
         //document.getElementById('yes').innerHTML = yes.toString();
         //document.getElementById('no').innerHTML = no.toString();
-      }
+
 //results.appendChild(document.createTextNode(" * " + name + " " + rp + " meetup with " + group + " in " + city + ', ' + state));
 //results.appendChild(document.createElement('br'));
       if (dd.getDay() >= 0 && count > 0) {
@@ -249,7 +249,8 @@ var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
 				daycount.forEach(function(d,i){perdaycount[i].yes = d.yes/count; perdaycount[i].no = d.no/count;});
 				makeBars(perdaycount);
 			}
-makeMark(resp, lat, lon, rad, name, group, city, state, link);
+      makeMark(resp, lat, lon, rad, name, group, city, state, link);
+    }
 };
 
 
