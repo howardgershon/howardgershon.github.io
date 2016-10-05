@@ -273,8 +273,14 @@ makeMark(resp, lat, lon, rad, name, group, city, state, link);
   </div>
 <br/>
 <script>
-  var height = window.innerWidth*.3;
-  //Time Heat Map
+
+
+/***************************************************/
+//                                                 //
+//                 Time Heat Map                   //
+//                                                 //
+/***************************************************/
+
 var samp =[{'day':'Sunday', 0:0,   1:0,   2:0,   3:0,   4:0,   5:0,   6:0,   7:0,   8:0,   9:0,
                            10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0, 18:0, 19:0,
                            20:0, 21:0, 22:0, 23:0},
@@ -315,6 +321,7 @@ var bht = 25;
 var winWidth = window.innerWidth;
 var wd = 0.5*winWidth;
 var bht = (wd-50)/24;
+var segment;
 
 var svg0 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Sunday');
 var svg1 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Monday');
@@ -361,7 +368,12 @@ var update = function(day, time){
   rerender();
 }
 
-//Bar Chart
+  /***************************************************/
+  //                                                 //
+  //                   Bar Chart                     //
+  //                                                 //
+  /***************************************************/
+
 var count = 0;
 
 			daycount = [{'day':'Sunday', 'yes':0, 'no':0},
@@ -449,9 +461,16 @@ var count = 0;
 
 						}
 				}
+  /***************************************************/
+  //                                                 //
+  //                 Donut Chart                     //
+  //                                                 //
+  /***************************************************/
+
   var stateData = [];
-  var height = window.innerHeight*.3;
+  var height = window.innerHeight*.35;
   var width = height;
+  var radius = height/2;
           var svgDonut = d3.select("#donut").append("svg")
                 .attr("class", "pie")
                 .attr("height", height)
@@ -525,6 +544,16 @@ var count = 0;
                             return "translate(" + arc.centroid(interpolate(t)) + ")";
                         };
                     });
+
+            svgDonut.append("text")
+          				.datum(data)
+          				.attr("x", 0 )
+          				.attr("y", 0 + radius/10 )
+          				.attr("class", "text-tooltip")
+          				.style("text-anchor", "middle")
+          				.attr("font-weight", "bold")
+          				.style("font-size", radius/2.5+"px");
+
         }
 
         var lighten = function (clr) {
@@ -647,8 +676,32 @@ var count = 0;
 
             seg.append("path")
                     .attr("class", "arc")
+                    .attr('id', function(d, i){return stateData[i].state})
                     .attr("fill", function (d,i) {
                         return colors3(i);
+                    })
+                    .on("mouseenter", function(d) {
+                        pastColor = d3.select(this).attr("fill");
+                        //alert(lighten(pastColor));
+                        d3.select(this).attr("fill", lighten(pastColor));
+                        var st = d3.select(this).attr('id');
+												//console.log(d)
+												svgDonut.select("text.text-tooltip")
+												  .attr("transform", "translate("+radius+","+radius+")")
+        									.attr("fill", function(d, i) { return colors3(i); /*return 'black'*/ })
+        									.text(function(d, i){
+														//var sum = data.reduce(function(a, b){return a+b;});
+														//var perc = Math.trunc(d.data/sum*100);
+          									//return perc+"%";
+                            console.log(st);
+                            //stateData[i].state;
+                            return st;
+       	 									});
+                        //d3.select(this).append("text").text("hello").attr("x", 100).attr("y", 100).attr("color", "black");
+                    })
+                    .on("mouseleave", function(d) {
+												svgDonut.select("text.text-tooltip").text("");
+                        d3.select(this).attr("fill", pastColor);
                     })
                     .transition().duration(1000)
                     .attrTween("d", function (d, i) {
@@ -673,7 +726,10 @@ var count = 0;
                     .text(function(d, i) {
 												//var dats = Math.floor(data[i]);
 												//if (dats == 0 ) return null;
-                        return stateData[i].state;
+                        segment = d;
+                        if (d.endAngle - d.startAngle > Math.PI/16){
+                          return stateData[i].state;
+                        }
                     });
 										//.transition().duration(1000).attr("fill-opacity", 1);
                     //.transition().duration(1000);
