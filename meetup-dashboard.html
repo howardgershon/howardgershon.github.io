@@ -226,7 +226,7 @@ var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
 			var resp = rsvp['response'];
 			var rad = 50000;
 			var rp = (resp == 'yes') ? 'will' : "won't";
-      var d = new Date(rsvp.event['time']);
+      var dd = new Date(rsvp.event['time']);
       var day = d.getDay();
       var hour = d.getHours();
       //console.log(country.toUpperCase())
@@ -244,8 +244,8 @@ var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
       }
 //results.appendChild(document.createTextNode(" * " + name + " " + rp + " meetup with " + group + " in " + city + ', ' + state));
 //results.appendChild(document.createElement('br'));
-      if (d.getDay() >= 0 && count > 0) {
-				(resp == 'yes') ? daycount[d.getDay()].yes += 1 : daycount[d.getDay()].no += 1;
+      if (dd.getDay() >= 0 && count > 0) {
+				(resp == 'yes') ? daycount[dd.getDay()].yes += 1 : daycount[dd.getDay()].no += 1;
 				daycount.forEach(function(d,i){perdaycount[i].yes = d.yes/count; perdaycount[i].no = d.no/count;});
 				makeBars(perdaycount);
 			}
