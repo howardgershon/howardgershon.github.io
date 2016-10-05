@@ -340,7 +340,7 @@ rerender = function(){
   [svg0, svg1, svg2, svg3, svg4, svg5, svg6].forEach(function(c, i){
     d3.range(24).forEach(function(d, j){
     c.append('rect').attr('height', bht*(5/6)).attr('width', bht*(5/6)).attr('y', 0)
-      .attr('x', d*(bht)+50).attr('fill', (samp[i][j] == 0) ? '#ffffcc' : f(samp[i][j])).attr('class', 'rect');
+      .attr('x', d*(bht)+50).attr('fill', (samp[i][j] == 0) ? '#ffffff' : f(samp[i][j])).attr('class', 'rect');
 
     });
     c.append('text').attr('x', 20).attr('y', 15).attr('text-anchor', 'middle')
