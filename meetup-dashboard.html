@@ -261,7 +261,7 @@ var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
 				daycount.forEach(function(d,i){perdaycount[i].yes = d.yes/count; perdaycount[i].no = d.no/count;});
 				makeBars(perdaycount);
 			}
-      makeMark(resp, lat, lon, rad, name, group, city, state, link);
+      makeMark(resp, lat, lon, rad, name, group, city, state, link, photo);
     }
 };
 
