@@ -164,7 +164,7 @@ mapOptions);
 google.maps.event.addDomListener(window, 'load', initialize);
 
 //websocket shit
-var makeMark = function(resp, lat, lon, rad, memberName, groupName, city, state, link){
+var makeMark = function(resp, lat, lon, rad, memberName, groupName, city, state, link, photoLink){
 //set color of circle
 var colr = (resp == 'yes') ? '#097054' : '#F00';
 var rsvpOpt = {
@@ -194,7 +194,7 @@ rsvpInv = new google.maps.Circle(rsvpOptI);
 
 			google.maps.event.addListener(rsvpInv, 'mouseover', (function(rsvpCirc) {
 				return function() {
-					infowindow.setContent('<b>' + groupName + '<br> <span style="color:' + colr + '">' + resp + '</span> </b> <br>' + memberName + '<br>' + city + ', ' + state);
+					infowindow.setContent('<img src=' + photoLink + ' alt="photo of ' + memberName + '"> </img><br><b>' + groupName + '<br> <span style="color:' + colr + '">' + resp + '</span> </b> <br>' + memberName + '<br>' + city + ', ' + state);
 					//infowindow.setOptions({maxWidth: 150});
 					infowindow.setPosition(rsvpCirc.center);
 					//console.log(infowindow.position);
@@ -234,6 +234,7 @@ var ws = new WebSocket('ws://stream.meetup.com/2/rsvps');
       var country = rsvp.group['group_country'];
 			var lat = rsvp.group['group_lat'];
 			var lon = rsvp.group['group_lon'];
+      var photo = rsvp.member['photo'];
 			var resp = rsvp['response'];
 			var rad = 50000;
 			var rp = (resp == 'yes') ? 'will' : "won't";
