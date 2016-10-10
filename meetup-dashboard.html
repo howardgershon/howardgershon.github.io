@@ -194,7 +194,7 @@ rsvpInv = new google.maps.Circle(rsvpOptI);
 
 			google.maps.event.addListener(rsvpInv, 'mouseover', (function(rsvpCirc) {
 				return function() {
-					infowindow.setContent('<img src=' + photoLink + ' alt="photo of ' + memberName + '"> </img><br><b>' + groupName + '<br> <span style="color:' + colr + '">' + resp + '</span> </b> <br>' + memberName + '<br>' + city + ', ' + state);
+					infowindow.setContent('<img src="' + photoLink + '" alt="photo of ' + memberName + '"> </img><br><b>' + groupName + '<br> <span style="color:' + colr + '">' + resp + '</span> </b> <br>' + memberName + '<br>' + city + ', ' + state);
 					//infowindow.setOptions({maxWidth: 150});
 					infowindow.setPosition(rsvpCirc.center);
 					//console.log(infowindow.position);
