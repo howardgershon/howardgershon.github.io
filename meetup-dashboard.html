@@ -25,12 +25,12 @@ body { height: 100%; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; f
   #space {height:87%; width:5%; float:left;}
   #words { color:black; height: 5%; margin-left: 3%; width:100%; background-color:transparent; padding:5px;}
   #container { background-color: transparent}
-  #footer {position:absolute; height: 3%; width: 100%; font-size: 10pt; padding: 5px; top:95%;}
+  #footer {position:absolute; width: 100%; font-size: 10pt; padding: 5px; top:99%;}
   #res{font-family:'Roboto', sans-serif; font-size: 35pt; float:left; margin-left: 5%;}
   #yes{color:green; display: inline}
   #no{color:red; display: inline}
   #title{font-size:40pt; font-family: Product Sans; font-weight: 100; margin: 50px; display: inline-block;}
-  #week{font-size: 10pt; margin-left: 100px; width: 35%; display: inline-block;}
+  #week{font-size: 10pt; margin-left: 100px; width: 35%; display: inline-block; margin-top: -50px;}
   #bar{float:left; display: inline-block;}
   #donut{display: inline-block; margin-left: 50px;}
 .invisible {
@@ -333,9 +333,10 @@ var bht = 25;
 //var wd = 24*bht+20;
 var winWidth = window.innerWidth;
 var wd = 0.5*winWidth;
-var bht = (wd-50)/24;
+var bht = (wd-50)/24; var bt = 2*bht;
 var segment;
 
+var svg7 = d3.select('#week').append('svg').attr('height', bt).attr('width', wd).attr('id', 'legend');
 var svg0 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Sunday');
 var svg1 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Monday');
 var svg2 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Tuesday');
@@ -344,7 +345,27 @@ var svg4 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd
 var svg5 = d3.select('#week').append('svg').attr('height', bht).attr('width', wd).attr('id', 'Friday');
 var svg6 = d3.select('#week').append('svg').attr('height', bht + 50).attr('width', wd).attr('id', 'Saturday');
 
-rerender = function(){
+var makeLegend = function(max, cols, x, y, h){
+
+  d3.selectAll('.legend').remove();
+  cols.forEach(function(d, i){
+      svg7.append('rect').attr('fill', d)
+        .attr('x', i*bht+50+.5*bht-2.5).attr('y', y)
+        .attr('height', h).attr('width', h)
+        .attr('class', 'legend')
+        .attr('stroke', '#ccc');
+  });
+  var bounds = [];
+  var bounds = d3.range(1,max,max/cols.length)
+    .map(function(d){return Math.floor(d);})
+  bounds.push(max);
+  bounds.forEach(function(d,i){
+    svg7.append('text').attr('x', i*bht+50+.5*bht-2.5).attr('class', 'legend')
+      .attr('text-anchor', 'middle').attr('y', y-10).text(d);
+  })
+}
+
+var rerender = function(){
   nums=[];
   d3.range(7).map(function(n){
     Object.keys(samp[n]).map(function(d){
@@ -352,6 +373,7 @@ rerender = function(){
     });
   });
   mx = Math.max.apply(null, nums);
+  makeLegend(Math.max(mx,25),colors,0,30,((5/6)*bht))
   //console.log(mx);
   f = d3.scale.quantize().domain([0, Math.max(mx, 25)]).range(colors);
   var mm = d3.min(f.invertExtent('#1d91c0'));
@@ -408,7 +430,7 @@ var count = 0;
 				{'day':'Saturday', 'yes':0, 'no':0}
 			];
 
-  var svgBar = d3.select('#bar').append('svg').attr('class', 'axis').attr('height', 250).attr('width', 500);
+  var svgBar = d3.select('#bar').append('svg').attr('class', 'axis').attr('height', 350).attr('width', 500);
 
   function makeBars(data1/*, olddata1*/){
 					  if(count > 0){
@@ -422,7 +444,7 @@ var count = 0;
 							svgBar.selectAll("g").remove();
 							svgBar.selectAll('.day').remove();
 							var x = d3.scale.ordinal().rangeRoundBands([0, 400], .1);
-							var y = d3.scale.linear().domain([0,1]).range([225, 10]);
+							var y = d3.scale.linear().domain([0,1]).range([325, 10]);
 
 							var x1 = d3.scale.ordinal();
 
@@ -451,13 +473,13 @@ var count = 0;
 								.style("fill", function(d, i) { return colorrev[i]; })
 							  .transition()
                 .duration(100)
-      					.attr("height", function(d) { return 225-y(d.value); });
+      					.attr("height", function(d) { return 325-y(d.value); });
 
 
 
 							svgBar.append('g')
 									.attr('class', 'x axis')
-									.attr('transform', 'translate(100,225)')
+									.attr('transform', 'translate(100,325)')
 									.call(xAxis);
 
 							svgBar.append('g')
