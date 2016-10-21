@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script src="//d3js.org/d3.v4.min.js"></script>
+  <title>JS Bin</title>
+</head>
+<body>
+<script>
+  var edu = [{"school":"University of Utah", 
+            "level": "Bachelors",
+            "emphasis": "Mathematics",
+            "start": "2009-08",
+            "end": "2013-08"},
+           {"school":"University of Utah",
+            "level": "Masters",
+            "emphasis": "Computational Engineering & Sciences",
+            "start": "2013-08",
+            "end": "2015-05"},
+           {"school": "University of Cincinnati",
+            "level": "Masters",
+            "emphasis": "Statistics",
+            "start": "2015-08",
+            "end": "2016-12"}]
+
+  var teaching = [{"school": "University of Utah",
+                 "level": "Graduate",
+                 "role": "TA",
+                 "semester": "Fall 2012",
+                 "subjects": ["Advanced Scientific Computing I"],
+                 "start": "2012-08",
+                 "end": "2012-12"},
+                {"school": "University of Utah",
+                 "level": "Graduate",
+                 "role": "TA",
+                 "semester": "Spring 2013",
+                 "subjects": ["Advanced Scientific Computing II", "Probabilistic Modeling"],
+                 "start": "2013-01",
+                 "end": "2013-05"},
+                {"school": "University of Utah",
+                 "level": "Graduate",
+                 "role": "TA",
+                 "semester": "Fall 2013",
+                 "subjects": ["Advanced Scientific Computing I"],
+                 "start": "2013-08",
+                 "end": "2013-12"},
+                {"school": "University of Utah",
+                 "level": "Graduate/Undergraduate",
+                 "role": "TA",
+                 "semester": "Spring 2014",
+                 "subjects": ["Advanced Scientific Computing II", "Scientific Computing"],
+                 "start": "2014-01",
+                 "end": "2014-05"},
+                {"school": "University of Utah",
+                 "level": "Graduate",
+                 "role": "TA",
+                 "semester": "Fall 2014",
+                 "subjects": ["Advanced Scientific Computing I", "Mathematical Foundations of Computer Graphics and Visualization"],
+                 "start": "2014-08",
+                 "end": "2014-12"},
+                {"school": "University of Utah",
+                 "level": "Undergraduate",
+                 "role": "TA",
+                 "semester": "Spring 2015",
+                 "subjects": ["Discrete Mathematics"],
+                 "start": "2014-01",
+                 "end": "2014-05"},
+                {"school": "University of Cincinnati",
+                 "level": "Undergraduate",
+                 "role": "TA",
+                 "semester": "Fall 2015",
+                 "subjects": ["Calculus (Three Sections)"],
+                 "start": "2015-08",
+                 "end": "2015-12"},
+               {"school": "University of Cincinnati",
+                 "level": "Undergraduate",
+                 "role": "Instructor",
+                 "semester": "Summer 2016",
+                 "subjects": ["Calculus II"],
+                 "start": "2016-05",
+                 "end": "2016-08"}];
+
+  var empl = [{"company": "JP Morgan Chase",
+             "jobTitle": "Java Application Development Intern",
+             "start": "2012-05",
+             "end": "2012-07"},
+            {"company": "University of Utah",
+             "jobTitle": "Researcher",
+             "start": "2012-11",
+             "end": "2013-08"},
+            {"company": "Mountain West Digital Library",
+             "jobTitle": "Web Development Intern",
+             "start": "2014-06",
+             "end": "2014-08"},
+            {"company": "Everything But The House",
+             "jobTitle": "Data Science Intern",
+             "start": "2015-06",
+             "end": "2015-08"},
+            {"company": "Procter & Gamble",
+             "jobTitle": "Research Intern",
+             "start": "2016-01",
+             "end": d3.max(edu, function(d){return d.end;})}];
+
+  var color = d3.schemeCategory10;
+
+  var svg = d3.select('body').append('svg').attr('height', 1000)
+  .attr('width', 1000);
+
+  var g = svg.append("g").attr('transform', 'translate(500,500)');
+
+  var arc = d3.arc().innerRadius(200).outerRadius(225);
+  var midarc = d3.arc().innerRadius(212).outerRadius(214);
+  var arc1 = d3.arc().innerRadius(160).outerRadius(185);
+  var midarc1 = d3.arc().innerRadius(172).outerRadius(174);
+  var arc2 = d3.arc().innerRadius(120).outerRadius(145);
+  var midarc2 = d3.arc().innerRadius(132).outerRadius(134);
+
+  var start = new Date(d3.min(edu, function(d){return d.start;}));
+  var end = new Date(d3.max(edu, function(d){return d.end;}));
+
+  console.log(start);
+  console.log(end);
+
+  var thetascale = d3.scaleTime().range([Math.PI/6, 11*Math.PI/6]).domain([start, end]);
+
+  var thread = g.append("path")
+    .datum({startAngle: 0, endAngle: 2*Math.PI})
+    .style('fill', '#000')
+    .attr('d', midarc);
+
+  var thread1 = g.append("path")
+    .datum({startAngle: 0, endAngle: 2*Math.PI})
+    .style('fill', '#000')
+    .attr('d', midarc1);
+
+  var thread2 = g.append("path")
+    .datum({startAngle: 0, endAngle: 2*Math.PI})
+    .style('fill', '#000')
+    .attr('d', midarc2);
+
+  var background = g.append("path")
+    .datum({startAngle: thetascale(start), endAngle: thetascale(end)})
+    .style("fill", "#ddd")
+    .attr("d", arc)
+    .style('transform', 'rotate(180deg)');
+
+  edu.forEach(function(d, i){
+  g.append("path")
+    .datum({startAngle: thetascale(new Date(d.start)),
+           endAngle: thetascale(new Date(d.end))})
+    .style("fill", color[i])
+    .attr('d', arc)
+    .style('transform', 'rotate(180deg)');
+  });
+
+  var background1 = g.append("path")
+    .datum({startAngle: thetascale(start), endAngle: thetascale(end)})
+    .style("fill", "#ddd")
+    .attr("d", arc1)
+    .style('transform', 'rotate(180deg)');
+
+  teaching.forEach(function(d, i){
+  g.append("path")
+    .datum({startAngle: thetascale(new Date(d.start)),
+           endAngle: thetascale(new Date(d.end))})
+    .style("fill", color[i])
+    .attr('d', arc1)
+    .style('transform', 'rotate(180deg)');
+  });
+
+  var background2 = g.append("path")
+    .datum({startAngle: thetascale(start), endAngle: thetascale(end)})
+    .style("fill", "#ddd")
+    .attr("d", arc2)
+    .style('transform', 'rotate(180deg)');
+
+  empl.forEach(function(d, i){
+  g.append("path")
+    .datum({startAngle: thetascale(new Date(d.start)),
+           endAngle: thetascale(new Date(d.end))})
+    .style("fill", color[i])
+    .attr('d', arc2)
+    .style('transform', 'rotate(180deg)');
+  });
+
+  g.append('line').attr('x1', 0).attr('x2', 225*Math.cos(4*Math.PI/6)).attr('y1', 0).attr('y2', 225*Math.sin(4*Math.PI/6)).attr('stroke', 'black');
+
+  g.append('line').attr('x1', 0).attr('x2', 225*Math.cos(2*Math.PI/6)).attr('y1', 0).attr('y2', 225*Math.sin(2*Math.PI/6)).attr('stroke', 'black');
+</script>
+</body>
+</html>
