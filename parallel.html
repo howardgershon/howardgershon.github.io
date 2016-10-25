@@ -94,8 +94,8 @@ d3.csv("cars.csv", function(error, cars) {
       .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
       .call(d3.behavior.drag()
         .on("dragstart", function(d) {
-          console.log(this.__origin__);
           dragging[d] = this.__origin__ = x(d);
+          console.log(this.__origin__);
           background.attr("visibility", "hidden");
         })
         .on("drag", function(d) {
