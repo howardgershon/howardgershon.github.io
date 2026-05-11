@@ -45,7 +45,8 @@ a {
   text-decoration: none;
 }
 </style>
-<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?1.29.1"></script>
+<!-- <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?1.29.1"></script> -->
+<script src="https://d3js.org"></script>
 <script type="text/javascript"
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4S0htJdf5znscmtUJdZBrQ8cS_6RIFD4&sensor=false">
 </script>
@@ -94,7 +95,7 @@ var edits = [];
 
 var wid = document.documentElement.scrollWidth;
 
-var ws = new WebSocket('ws://wikimon.hatnote.com/en/');
+var ws = new WebSocket('wss://wikimon.hatnote.com/v2/');
 //ws.onmessage() = function(msg){makeMark(msg.data);};
 
   var info;
